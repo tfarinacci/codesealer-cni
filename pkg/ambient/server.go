@@ -27,8 +27,8 @@ import (
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/client-go/rest"
 
-	"istio.io/istio/cni/pkg/ambient/constants"
-	ebpf "istio.io/istio/cni/pkg/ebpf/server"
+	"github.com/tfarinacci/codsealer-cni/pkg/ambient/constants"
+	ebpf "github.com/tfarinacci/codsealer-cni/pkg/ebpf/server"
 	"istio.io/istio/pkg/file"
 	"istio.io/istio/pkg/kube"
 	"istio.io/istio/pkg/kube/controllers"

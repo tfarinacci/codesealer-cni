@@ -19,7 +19,7 @@ package install_test
 import (
 	"testing"
 
-	install "istio.io/istio/cni/test"
+	install "github.com/tfarinacci/codsealer-cni/test"
 	"istio.io/istio/pkg/test/env"
 )
 

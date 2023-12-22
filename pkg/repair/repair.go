@@ -17,7 +17,7 @@ package repair
 import (
 	"context"
 
-	"istio.io/istio/cni/pkg/config"
+	"github.com/tfarinacci/codsealer-cni/pkg/config"
 	"istio.io/istio/pkg/kube"
 	"istio.io/istio/pkg/log"
 )

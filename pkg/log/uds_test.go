@@ -21,7 +21,7 @@ import (
 	"strings"
 	"testing"
 
-	"istio.io/istio/cni/pkg/constants"
+	"github.com/tfarinacci/codsealer-cni/pkg/constants"
 	"istio.io/istio/pkg/log"
 )
 

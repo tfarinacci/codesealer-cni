@@ -20,7 +20,7 @@ import (
 	"regexp"
 	"strings"
 
-	"istio.io/istio/cni/pkg/ambient/constants"
+	"github.com/tfarinacci/codsealer-cni/pkg/ambient/constants"
 )
 
 type iptablesRule struct {

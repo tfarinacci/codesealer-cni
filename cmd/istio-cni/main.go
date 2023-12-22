@@ -23,7 +23,7 @@ import (
 	"github.com/containernetworking/cni/pkg/skel"
 	"github.com/containernetworking/cni/pkg/version"
 
-	"istio.io/istio/cni/pkg/plugin"
+	"github.com/tfarinacci/codsealer-cni/pkg/plugin"
 	"istio.io/istio/pkg/log"
 	istioversion "istio.io/istio/pkg/version"
 )

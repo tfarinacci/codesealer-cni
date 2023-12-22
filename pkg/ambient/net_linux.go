@@ -31,8 +31,8 @@ import (
 	"golang.org/x/sys/unix"
 	corev1 "k8s.io/api/core/v1"
 
-	"istio.io/istio/cni/pkg/ambient/constants"
-	ebpf "istio.io/istio/cni/pkg/ebpf/server"
+	"github.com/tfarinacci/codsealer-cni/pkg/ambient/constants"
+	ebpf "github.com/tfarinacci/codsealer-cni/pkg/ebpf/server"
 	"istio.io/istio/pkg/util/sets"
 )
 

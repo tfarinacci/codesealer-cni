@@ -19,8 +19,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"istio.io/istio/cni/pkg/config"
-	"istio.io/istio/cni/pkg/constants"
+	"github.com/tfarinacci/codsealer-cni/pkg/config"
+	"github.com/tfarinacci/codsealer-cni/pkg/constants"
 	testutils "istio.io/istio/pilot/test/util"
 )
 

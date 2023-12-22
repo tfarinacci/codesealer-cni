@@ -29,10 +29,10 @@ import (
 	cniv1 "github.com/containernetworking/cni/pkg/types/100"
 	"github.com/containernetworking/cni/pkg/version"
 
+	"github.com/tfarinacci/codsealer-cni/pkg/ambient"
+	"github.com/tfarinacci/codsealer-cni/pkg/constants"
 	"istio.io/api/annotation"
 	"istio.io/api/label"
-	"istio.io/istio/cni/pkg/ambient"
-	"istio.io/istio/cni/pkg/constants"
 	"istio.io/istio/pkg/log"
 	"istio.io/istio/pkg/util/sets"
 )
