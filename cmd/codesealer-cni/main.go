@@ -23,8 +23,8 @@ import (
 	"github.com/containernetworking/cni/pkg/skel"
 	"github.com/containernetworking/cni/pkg/version"
 
-	"github.com/tfarinacci/codesealer/codsealer-cni/pkg/plugin"
-	// "github.com/tfarinacci/codesealer/codsealer-cni/pkg/log"
+	"github.com/tfarinacci/codsealer-cni/pkg/plugin"
+	// "github.com/tfarinacci/codsealer-cni/pkg/log"
 	"istio.io/istio/pkg/log" // TODO: Replace Istio Logging
 )
 

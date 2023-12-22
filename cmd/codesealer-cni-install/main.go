@@ -20,7 +20,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/tfarinacci/codesealer/codsealer-cni/pkg/cmd"
+	"github.com/tfarinacci/codsealer-cni/pkg/cmd"
 	"istio.io/istio/pkg/log"
 )
 

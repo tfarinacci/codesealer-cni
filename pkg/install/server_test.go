@@ -19,7 +19,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/tfarinacci/codesealer/codsealer-cni/pkg/constants"
+	"github.com/tfarinacci/codsealer-cni/pkg/constants"
 
 	"istio.io/istio/pkg/test/util/assert"
 )

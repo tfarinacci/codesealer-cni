@@ -25,8 +25,8 @@ import (
 
 	"github.com/containernetworking/cni/libcni"
 
-	"github.com/tfarinacci/codesealer/codsealer-cni/pkg/config"
-	"github.com/tfarinacci/codesealer/codsealer-cni/pkg/util"
+	"github.com/tfarinacci/codsealer-cni/pkg/config"
+	"github.com/tfarinacci/codsealer-cni/pkg/util"
 
 	"istio.io/istio/pkg/file"
 )

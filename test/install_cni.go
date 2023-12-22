@@ -28,9 +28,9 @@ import (
 	"github.com/google/go-cmp/cmp"
 	"github.com/spf13/viper"
 
-	"github.com/tfarinacci/codesealer/codsealer-cni/pkg/cmd"
-	"github.com/tfarinacci/codesealer/codsealer-cni/pkg/constants"
-	"github.com/tfarinacci/codesealer/codsealer-cni/pkg/util"
+	"github.com/tfarinacci/codsealer-cni/pkg/cmd"
+	"github.com/tfarinacci/codsealer-cni/pkg/constants"
+	"github.com/tfarinacci/codsealer-cni/pkg/util"
 
 	"istio.io/istio/pkg/file"
 	"istio.io/istio/pkg/log"

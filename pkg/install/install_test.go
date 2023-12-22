@@ -22,7 +22,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/tfarinacci/codesealer/codsealer-cni/pkg/config"
+	"github.com/tfarinacci/codsealer-cni/pkg/config"
 
 	testutils "istio.io/istio/pilot/test/util"
 	"istio.io/istio/pkg/file"

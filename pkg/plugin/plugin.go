@@ -29,8 +29,8 @@ import (
 	cniv1 "github.com/containernetworking/cni/pkg/types/100"
 	"github.com/containernetworking/cni/pkg/version"
 
-	"github.com/tfarinacci/codesealer/codsealer-cni/pkg/ambient"
-	"github.com/tfarinacci/codesealer/codsealer-cni/pkg/constants"
+	"github.com/tfarinacci/codsealer-cni/pkg/ambient"
+	"github.com/tfarinacci/codsealer-cni/pkg/constants"
 
 	"istio.io/api/annotation"
 	"istio.io/api/label"

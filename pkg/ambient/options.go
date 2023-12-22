@@ -15,7 +15,7 @@
 package ambient
 
 import (
-	ipsetlib "github.com/tfarinacci/codesealer/codsealer-cni/pkg/ipset"
+	ipsetlib "github.com/tfarinacci/codsealer-cni/pkg/ipset"
 
 	"istio.io/istio/pkg/config/constants"
 	"istio.io/istio/pkg/env"

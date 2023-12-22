@@ -20,7 +20,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/tfarinacci/codesealer/codsealer-cni/pkg/ambient/constants"
+	"github.com/tfarinacci/codsealer-cni/pkg/ambient/constants"
 )
 
 type iptablesRule struct {

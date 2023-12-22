@@ -24,8 +24,8 @@ import (
 	"k8s.io/client-go/tools/clientcmd/api/latest"
 	"sigs.k8s.io/yaml"
 
-	"github.com/tfarinacci/codesealer/codsealer-cni/pkg/config"
-	"github.com/tfarinacci/codesealer/codsealer-cni/pkg/constants"
+	"github.com/tfarinacci/codsealer-cni/pkg/config"
+	"github.com/tfarinacci/codsealer-cni/pkg/constants"
 
 	"istio.io/istio/pilot/pkg/model"
 	"istio.io/istio/pkg/file"
