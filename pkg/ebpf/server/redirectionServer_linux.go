@@ -48,8 +48,7 @@ import (
 	"github.com/josharian/native"
 	"golang.org/x/sys/unix"
 
-	"github.com/tfarinacci/codsealer-cni/pkg/ambient/constants"
-
+	"istio.io/istio/cni/pkg/ambient/constants"
 	istiolog "istio.io/istio/pkg/log"
 	"istio.io/istio/pkg/util/istiomultierror"
 	"istio.io/istio/pkg/util/sets"

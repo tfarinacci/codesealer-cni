@@ -23,8 +23,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/tfarinacci/codsealer-cni/pkg/constants"
-
+	"istio.io/istio/cni/pkg/constants"
 	"istio.io/istio/pkg/log"
 	"istio.io/istio/pkg/network"
 	"istio.io/istio/pkg/uds"

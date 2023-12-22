@@ -21,10 +21,9 @@ import (
 	"path/filepath"
 	"sync/atomic"
 
-	"github.com/tfarinacci/codsealer-cni/pkg/config"
-	"github.com/tfarinacci/codsealer-cni/pkg/constants"
-	"github.com/tfarinacci/codsealer-cni/pkg/util"
-
+	"istio.io/istio/cni/pkg/config"
+	"istio.io/istio/cni/pkg/constants"
+	"istio.io/istio/cni/pkg/util"
 	"istio.io/istio/pkg/file"
 	"istio.io/istio/pkg/log"
 	"istio.io/istio/pkg/util/sets"

@@ -23,9 +23,8 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 
-	"github.com/tfarinacci/codsealer-cni/pkg/ambient"
-	ebpf "github.com/tfarinacci/codsealer-cni/pkg/ebpf/server"
-
+	"istio.io/istio/cni/pkg/ambient"
+	ebpf "istio.io/istio/cni/pkg/ebpf/server"
 	"istio.io/istio/pkg/log"
 )
 

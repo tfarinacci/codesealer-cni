@@ -23,13 +23,9 @@ import (
 	"github.com/containernetworking/cni/pkg/skel"
 	"github.com/containernetworking/cni/pkg/version"
 
-	"github.com/tfarinacci/codsealer-cni/pkg/plugin"
-	// "github.com/tfarinacci/codsealer-cni/pkg/log"
-	"istio.io/istio/pkg/log" // TODO: Replace Istio Logging
-)
-
-const (
-	codesealerVersion = "0.0.1"
+	"istio.io/istio/cni/pkg/plugin"
+	"istio.io/istio/pkg/log"
+	istioversion "istio.io/istio/pkg/version"
 )
 
 func main() {
@@ -46,5 +42,5 @@ func main() {
 
 	// TODO: implement plugin version
 	skel.PluginMain(plugin.CmdAdd, plugin.CmdCheck, plugin.CmdDelete, version.All,
-		fmt.Sprintf("CNI plugin codesealer-cni %v", codesealerVersion))
+		fmt.Sprintf("CNI plugin istio-cni %v", istioversion.Info.Version))
 }

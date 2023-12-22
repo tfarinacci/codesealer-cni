@@ -15,7 +15,7 @@ FROM ${ISTIO_BASE_REGISTRY}/distroless:${BASE_VERSION} as distroless
 # hadolint ignore=DL3006
 FROM ${BASE_DISTRIBUTION:-debug}
 
-LABEL description="Codesealer CNI plugin installer."
+LABEL description="Istio CNI plugin installer."
 
 ARG TARGETARCH
 COPY ${TARGETARCH:-amd64}/istio-cni /opt/cni/bin/istio-cni

@@ -12,15 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// This is a sample chained plugin that supports multiple CNI versions. It
-// parses prevResult according to the cniVersion
+package main
+
 import (
 	"context"
 	"os"
 	"os/signal"
 	"syscall"
 
-	"github.com/tfarinacci/codsealer-cni/pkg/cmd"
+	"istio.io/istio/cni/pkg/cmd"
 	"istio.io/istio/pkg/log"
 )
 

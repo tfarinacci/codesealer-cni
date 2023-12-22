@@ -25,8 +25,7 @@ import (
 	klabels "k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/runtime"
 
-	"github.com/tfarinacci/codsealer-cni/pkg/config"
-
+	"istio.io/istio/cni/pkg/config"
 	"istio.io/istio/pkg/kube"
 	"istio.io/istio/pkg/monitoring/monitortest"
 	"istio.io/istio/pkg/slices"
