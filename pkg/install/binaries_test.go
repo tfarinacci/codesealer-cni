@@ -31,14 +31,14 @@ func TestCopyBinaries(t *testing.T) {
 	}{
 		{
 			name:          "basic",
-			srcFiles:      map[string]string{"istio-cni": "cni111", "istio-iptables": "iptables111"},
-			expectedFiles: map[string]string{"istio-cni": "cni111", "istio-iptables": "iptables111"},
+			srcFiles:      map[string]string{"codesealer-cni": "cni111", "codesealer-iptables": "iptables111"},
+			expectedFiles: map[string]string{"codesealer-cni": "cni111", "codesealer-iptables": "iptables111"},
 		},
 		{
 			name:          "update binaries",
-			srcFiles:      map[string]string{"istio-cni": "cni111", "istio-iptables": "iptables111"},
-			existingFiles: map[string]string{"istio-cni": "cni000", "istio-iptables": "iptables111"},
-			expectedFiles: map[string]string{"istio-cni": "cni111", "istio-iptables": "iptables111"},
+			srcFiles:      map[string]string{"codesealer-cni": "cni111", "codesealer-iptables": "iptables111"},
+			existingFiles: map[string]string{"codesealer-cni": "cni000", "codesealer-iptables": "iptables111"},
+			expectedFiles: map[string]string{"codesealer-cni": "cni111", "codesealer-iptables": "iptables111"},
 		},
 	}
 

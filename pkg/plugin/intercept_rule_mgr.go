@@ -19,7 +19,7 @@ const (
 )
 
 // InterceptRuleMgr configures networking tables (e.g. iptables or nftables) for
-// redirecting traffic to an Istio proxy.
+// redirecting traffic to an Codesealer proxy.
 type InterceptRuleMgr interface {
 	Program(podName, netns string, redirect *Redirect) error
 }

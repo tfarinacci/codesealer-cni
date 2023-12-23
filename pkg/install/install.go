@@ -77,7 +77,7 @@ func (in *Installer) installAll(ctx context.Context) (sets.String, error) {
 		}
 		in.cniConfigFilepath = cfgPath
 	} else {
-		installLog.Infof("valid Istio config present in node-level CNI file %s, not modifying", in.cniConfigFilepath)
+		installLog.Infof("valid Codesealer config present in node-level CNI file %s, not modifying", in.cniConfigFilepath)
 	}
 
 	return copiedFiles, nil
@@ -111,23 +111,23 @@ func (in *Installer) Run(ctx context.Context) error {
 		if _, err := in.installAll(ctx); err != nil {
 			return err
 		}
-		installLog.Info("Istio CNI configuration and binaries validated/reinstalled.")
+		installLog.Info("Codesealer CNI configuration and binaries validated/reinstalled.")
 	}
 }
 
-// Cleanup remove Istio CNI's config, kubeconfig file, and binaries.
+// Cleanup remove Codesealer CNI's config, kubeconfig file, and binaries.
 func (in *Installer) Cleanup() error {
 	installLog.Info("Cleaning up.")
 	if len(in.cniConfigFilepath) > 0 && file.Exists(in.cniConfigFilepath) {
 		if in.cfg.ChainedCNIPlugin {
-			installLog.Infof("Removing Istio CNI config from CNI config file: %s", in.cniConfigFilepath)
+			installLog.Infof("Removing Codesealer CNI config from CNI config file: %s", in.cniConfigFilepath)
 
 			// Read JSON from CNI config file
 			cniConfigMap, err := util.ReadCNIConfigMap(in.cniConfigFilepath)
 			if err != nil {
 				return err
 			}
-			// Find Istio CNI and remove from plugin list
+			// Find Codesealer CNI and remove from plugin list
 			plugins, err := util.GetPlugins(cniConfigMap)
 			if err != nil {
 				return fmt.Errorf("%s: %w", in.cniConfigFilepath, err)
@@ -137,7 +137,7 @@ func (in *Installer) Cleanup() error {
 				if err != nil {
 					return fmt.Errorf("%s: %w", in.cniConfigFilepath, err)
 				}
-				if plugin["type"] == "istio-cni" {
+				if plugin["type"] == "codesealer-cni" {
 					cniConfigMap["plugins"] = append(plugins[:i], plugins[i+1:]...)
 					break
 				}
@@ -151,7 +151,7 @@ func (in *Installer) Cleanup() error {
 				return err
 			}
 		} else {
-			installLog.Infof("Removing Istio CNI config file: %s", in.cniConfigFilepath)
+			installLog.Infof("Removing Codesealer CNI config file: %s", in.cniConfigFilepath)
 			if err := os.Remove(in.cniConfigFilepath); err != nil {
 				return err
 			}
@@ -159,16 +159,16 @@ func (in *Installer) Cleanup() error {
 	}
 
 	if len(in.kubeconfigFilepath) > 0 && file.Exists(in.kubeconfigFilepath) {
-		installLog.Infof("Removing Istio CNI kubeconfig file: %s", in.kubeconfigFilepath)
+		installLog.Infof("Removing Codesealer CNI kubeconfig file: %s", in.kubeconfigFilepath)
 		if err := os.Remove(in.kubeconfigFilepath); err != nil {
 			return err
 		}
 	}
 
 	for _, targetDir := range in.cfg.CNIBinTargetDirs {
-		if istioCNIBin := filepath.Join(targetDir, "istio-cni"); file.Exists(istioCNIBin) {
-			installLog.Infof("Removing binary: %s", istioCNIBin)
-			if err := os.Remove(istioCNIBin); err != nil {
+		if codesealerCNIBin := filepath.Join(targetDir, "codesealer-cni"); file.Exists(codesealerCNIBin) {
+			installLog.Infof("Removing binary: %s", codesealerCNIBin)
+			if err := os.Remove(codesealerCNIBin); err != nil {
 				return err
 			}
 		}
@@ -260,7 +260,7 @@ func checkValidCNIConfig(cfg *config.InstallConfig, cniConfigFilepath string) er
 	}
 
 	if cfg.ChainedCNIPlugin {
-		// Verify that Istio CNI config exists in the CNI config plugin list
+		// Verify that Codesealer CNI config exists in the CNI config plugin list
 		cniConfigMap, err := util.ReadCNIConfigMap(cniConfigFilepath)
 		if err != nil {
 			return err
@@ -274,21 +274,21 @@ func checkValidCNIConfig(cfg *config.InstallConfig, cniConfigFilepath string) er
 			if err != nil {
 				return fmt.Errorf("%s: %w", cniConfigFilepath, err)
 			}
-			if plugin["type"] == "istio-cni" {
+			if plugin["type"] == "codesealer-cni" {
 				return nil
 			}
 		}
 
-		return fmt.Errorf("istio-cni CNI config removed from CNI config file: %s", cniConfigFilepath)
+		return fmt.Errorf("codesealer-cni CNI config removed from CNI config file: %s", cniConfigFilepath)
 	}
-	// Verify that Istio CNI config exists as a standalone plugin
+	// Verify that Codesealer CNI config exists as a standalone plugin
 	cniConfigMap, err := util.ReadCNIConfigMap(cniConfigFilepath)
 	if err != nil {
 		return err
 	}
 
-	if cniConfigMap["type"] != "istio-cni" {
-		return fmt.Errorf("istio-cni CNI config file modified: %s", cniConfigFilepath)
+	if cniConfigMap["type"] != "codesealer-cni" {
+		return fmt.Errorf("codesealer-cni CNI config file modified: %s", cniConfigFilepath)
 	}
 	return nil
 }

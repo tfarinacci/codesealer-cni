@@ -45,8 +45,8 @@ var (
 )
 
 const (
-	ISTIOINIT  = "istio-init"
-	ISTIOPROXY = "istio-proxy"
+	CODESEALERINIT  = "codesealer-init"
+	CODESEALERPROXY = "codesealer-proxy"
 )
 
 // Kubernetes a K8s specific struct to hold config
@@ -152,7 +152,7 @@ func CmdAdd(args *skel.CmdArgs) (err error) {
 	// a proper error to the runtime.
 	defer func() {
 		if e := recover(); e != nil {
-			msg := fmt.Sprintf("istio-cni panicked during cmdAdd: %v\n%v", e, string(debug.Stack()))
+			msg := fmt.Sprintf("codesealer-cni panicked during cmdAdd: %v\n%v", e, string(debug.Stack()))
 			if err != nil {
 				// If we're recovering and there was also an error, then we need to
 				// present both.
@@ -161,13 +161,13 @@ func CmdAdd(args *skel.CmdArgs) (err error) {
 			err = fmt.Errorf(msg)
 		}
 		if err != nil {
-			log.Errorf("istio-cni cmdAdd error: %v", err)
+			log.Errorf("codesealer-cni cmdAdd error: %v", err)
 		}
 	}()
 
 	conf, err := parseConfig(args.StdinData)
 	if err != nil {
-		log.Errorf("istio-cni cmdAdd failed to parse config %v %v", string(args.StdinData), err)
+		log.Errorf("codesealer-cni cmdAdd failed to parse config %v %v", string(args.StdinData), err)
 		return err
 	}
 	if err := doRun(args, conf); err != nil {
@@ -185,8 +185,8 @@ func doRun(args *skel.CmdArgs, conf *Config) error {
 	} else {
 		loggedPrevResult = conf.PrevResult
 	}
-	log.WithLabels("if", args.IfName).Debugf("istio-cni CmdAdd config: %+v", conf)
-	log.Debugf("istio-cni CmdAdd previous result: %+v", loggedPrevResult)
+	log.WithLabels("if", args.IfName).Debugf("codesealer-cni CmdAdd config: %+v", conf)
+	log.Debugf("codesealer-cni CmdAdd previous result: %+v", loggedPrevResult)
 
 	// Determine if running under k8s by checking the CNI args
 	k8sArgs := K8sArgs{}
@@ -235,21 +235,21 @@ func doRun(args *skel.CmdArgs, conf *Config) error {
 		return k8sErr
 	}
 
-	// Check if istio-init container is present; in that case exclude pod
-	if pi.Containers.Contains(ISTIOINIT) {
-		log.Infof("excluded due to being already injected with istio-init container")
+	// Check if codesealer-init container is present; in that case exclude pod
+	if pi.Containers.Contains(CODESEALERINIT) {
+		log.Infof("excluded due to being already injected with codesealer-init container")
 		return nil
 	}
 
 	if val, ok := pi.ProxyEnvironments["DISABLE_CODESEALER"]; ok {
 		if val, err := strconv.ParseBool(val); err == nil && val {
-			log.Infof("excluded due to DISABLE_CODESEALER on istio-proxy", podNamespace, podName)
+			log.Infof("excluded due to DISABLE_CODESEALER on codesealer-proxy", podNamespace, podName)
 			return nil
 		}
 	}
 
-	if !pi.Containers.Contains(ISTIOPROXY) {
-		log.Infof("excluded because it does not have istio-proxy container (have %v)", sets.SortedList(pi.Containers))
+	if !pi.Containers.Contains(CODESEALERPROXY) {
+		log.Infof("excluded because it does not have codesealer-proxy container (have %v)", sets.SortedList(pi.Containers))
 		return nil
 	}
 
@@ -305,7 +305,7 @@ func setupLogging(conf *Config) {
 	if conf.LogUDSAddress != "" {
 		// reconfigure log output with tee to UDS if UDS log is enabled.
 		if err := log.Configure(GetLoggingOptions(conf.LogUDSAddress)); err != nil {
-			log.Error("Failed to configure istio-cni with UDS log")
+			log.Error("Failed to configure codesealer-cni with UDS log")
 		}
 	}
 	log.FindScope("default").SetOutputLevel(getLogLevel(conf.LogLevel))

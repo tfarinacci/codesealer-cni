@@ -57,8 +57,8 @@ func TestGetDefaultCNINetwork(t *testing.T) {
 			fileContents: `
 {
 	"cniVersion": "0.3.1",
-	"name": "istio-cni",
-	"type": "istio-cni"
+	"name": "codesealer-cni",
+	"type": "codesealer-cni"
 }`,
 		},
 		{
@@ -76,8 +76,8 @@ func TestGetDefaultCNINetwork(t *testing.T) {
 			fileContents: `
 {
 	"cniVersion": "0.3.1",
-	"name": "istio-cni",
-	"type": "istio-cni"
+	"name": "codesealer-cni",
+	"type": "codesealer-cni"
 }`,
 		},
 		{
@@ -89,8 +89,8 @@ func TestGetDefaultCNINetwork(t *testing.T) {
 			fileContents: `
 {
 	"cniVersion": "0.3.1",
-	"name": "istio-cni",
-	"type": "istio-cni"
+	"name": "codesealer-cni",
+	"type": "codesealer-cni"
 }`,
 		},
 	}
@@ -179,7 +179,7 @@ func TestGetCNIConfigFilepath(t *testing.T) {
 		},
 		{
 			name:             "standalone CNI plugin unspecified CNI config file",
-			expectedConfName: "YYY-istio-cni.conf",
+			expectedConfName: "YYY-codesealer-cni.conf",
 		},
 		{
 			name:              "standalone CNI plugin specified CNI config file",
@@ -309,7 +309,7 @@ func TestInsertCNIConfig(t *testing.T) {
 			name:                 "invalid existing config format (map)",
 			expectedFailure:      true,
 			existingConfFilename: "invalid-map.conflist",
-			newConfFilename:      "istio-cni.conf",
+			newConfFilename:      "codesealer-cni.conf",
 		},
 		{
 			name:                 "invalid new config format (arr)",
@@ -321,32 +321,32 @@ func TestInsertCNIConfig(t *testing.T) {
 			name:                 "invalid existing config format (arr)",
 			expectedFailure:      true,
 			existingConfFilename: "invalid-arr.conflist",
-			newConfFilename:      "istio-cni.conf",
+			newConfFilename:      "codesealer-cni.conf",
 		},
 		{
 			name:                 "regular network file",
 			existingConfFilename: "bridge.conf",
-			newConfFilename:      "istio-cni.conf",
+			newConfFilename:      "codesealer-cni.conf",
 		},
 		{
 			name:                 "list network file",
 			existingConfFilename: "list.conflist",
-			newConfFilename:      "istio-cni.conf",
+			newConfFilename:      "codesealer-cni.conf",
 		},
 		{
-			name:                 "list network file with existing istio",
-			existingConfFilename: "list-with-istio.conflist",
-			newConfFilename:      "istio-cni.conf",
+			name:                 "list network file with existing codesealer",
+			existingConfFilename: "list-with-codesealer.conflist",
+			newConfFilename:      "codesealer-cni.conf",
 		},
 	}
 
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {
-			istioConf := testutils.ReadFile(t, filepath.Join("testdata", c.newConfFilename))
+			codesealerConf := testutils.ReadFile(t, filepath.Join("testdata", c.newConfFilename))
 			existingConfFilepath := filepath.Join("testdata", c.existingConfFilename)
 			existingConf := testutils.ReadFile(t, existingConfFilepath)
 
-			output, err := insertCNIConfig(istioConf, existingConf)
+			output, err := insertCNIConfig(codesealerConf, existingConf)
 			if err != nil {
 				if !c.expectedFailure {
 					t.Fatal(err)
@@ -365,11 +365,11 @@ const (
 	// For testing purposes, set kubeconfigFilename equivalent to the path in the test files and use __KUBECONFIG_FILENAME__
 	// CreateCNIConfigFile joins the MountedCNINetDir and KubeconfigFilename if __KUBECONFIG_FILEPATH__ was used
 	kubeconfigFilename   = "/path/to/kubeconfig"
-	cniNetworkConfigFile = "testdata/istio-cni.conf.template"
+	cniNetworkConfigFile = "testdata/codesealer-cni.conf.template"
 	cniNetworkConfig     = `{
   "cniVersion": "0.3.1",
-  "name": "istio-cni",
-  "type": "istio-cni",
+  "name": "codesealer-cni",
+  "type": "codesealer-cni",
   "log_level": "__LOG_LEVEL__",
   "kubernetes": {
       "kubeconfig": "__KUBECONFIG_FILENAME__",
@@ -439,14 +439,14 @@ func TestCreateCNIConfigFile(t *testing.T) {
 		},
 		{
 			name:             "standalone CNI plugin unspecified CNI config file",
-			expectedConfName: "YYY-istio-cni.conf",
-			goldenConfName:   "istio-cni.conf",
+			expectedConfName: "YYY-codesealer-cni.conf",
+			goldenConfName:   "codesealer-cni.conf",
 		},
 		{
 			name:              "standalone CNI plugin specified CNI config file",
 			specifiedConfName: "specific-name.conf",
 			expectedConfName:  "specific-name.conf",
-			goldenConfName:    "istio-cni.conf",
+			goldenConfName:    "codesealer-cni.conf",
 		},
 	}
 

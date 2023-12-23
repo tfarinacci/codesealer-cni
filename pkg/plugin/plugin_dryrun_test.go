@@ -99,16 +99,16 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 		{
 			name: "basic",
 			input: &PodInfo{
-				Containers:        sets.New("test", "istio-proxy", "istio-validate"),
+				Containers:        sets.New("test", "codesealer-proxy", "codesealer-validate"),
 				Annotations:       map[string]string{annotation.SidecarStatus.Name: "true"},
 				ProxyEnvironments: map[string]string{},
 			},
-			golden: filepath.Join(env.IstioSrc, "cni/pkg/plugin/testdata/basic.txt.golden"),
+			golden: filepath.Join(env.CodesealerSrc, "cni/pkg/plugin/testdata/basic.txt.golden"),
 		},
 		{
 			name: "include-exclude-ip",
 			input: &PodInfo{
-				Containers: sets.New("test", "istio-proxy", "istio-validate"),
+				Containers: sets.New("test", "codesealer-proxy", "codesealer-validate"),
 				Annotations: map[string]string{
 					annotation.SidecarStatus.Name:                         "true",
 					annotation.SidecarTrafficIncludeOutboundIPRanges.Name: "127.0.0.0/8",
@@ -116,12 +116,12 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 				},
 				ProxyEnvironments: map[string]string{},
 			},
-			golden: filepath.Join(env.IstioSrc, "cni/pkg/plugin/testdata/include-exclude-ip.txt.golden"),
+			golden: filepath.Join(env.CodesealerSrc, "cni/pkg/plugin/testdata/include-exclude-ip.txt.golden"),
 		},
 		{
 			name: "include-exclude-ports",
 			input: &PodInfo{
-				Containers: sets.New("test", "istio-proxy", "istio-validate"),
+				Containers: sets.New("test", "codesealer-proxy", "codesealer-validate"),
 				Annotations: map[string]string{
 					annotation.SidecarStatus.Name:                      "true",
 					annotation.SidecarTrafficIncludeInboundPorts.Name:  "1111,2222",
@@ -130,61 +130,61 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 				},
 				ProxyEnvironments: map[string]string{},
 			},
-			golden: filepath.Join(env.IstioSrc, "cni/pkg/plugin/testdata/include-exclude-ports.txt.golden"),
+			golden: filepath.Join(env.CodesealerSrc, "cni/pkg/plugin/testdata/include-exclude-ports.txt.golden"),
 		},
 		{
 			name: "tproxy",
 			input: &PodInfo{
-				Containers: sets.New("test", "istio-proxy", "istio-validate"),
+				Containers: sets.New("test", "codesealer-proxy", "codesealer-validate"),
 				Annotations: map[string]string{
 					annotation.SidecarStatus.Name:           "true",
 					annotation.SidecarInterceptionMode.Name: redirectModeTPROXY,
 				},
 				ProxyEnvironments: map[string]string{},
 			},
-			golden: filepath.Join(env.IstioSrc, "cni/pkg/plugin/testdata/tproxy.txt.golden"),
+			golden: filepath.Join(env.CodesealerSrc, "cni/pkg/plugin/testdata/tproxy.txt.golden"),
 		},
 		{
 			name: "DNS",
 			input: &PodInfo{
-				Containers:        sets.New("test", "istio-proxy", "istio-validate"),
+				Containers:        sets.New("test", "codesealer-proxy", "codesealer-validate"),
 				Annotations:       map[string]string{annotation.SidecarStatus.Name: "true"},
 				ProxyEnvironments: map[string]string{options.DNSCaptureByAgent.Name: "true"},
 			},
-			golden: filepath.Join(env.IstioSrc, "cni/pkg/plugin/testdata/dns.txt.golden"),
+			golden: filepath.Join(env.CodesealerSrc, "cni/pkg/plugin/testdata/dns.txt.golden"),
 		},
 		{
 			name: "invalid-drop",
 			input: &PodInfo{
-				Containers:        sets.New("test", "istio-proxy", "istio-validate"),
+				Containers:        sets.New("test", "codesealer-proxy", "codesealer-validate"),
 				Annotations:       map[string]string{annotation.SidecarStatus.Name: "true"},
 				ProxyEnvironments: map[string]string{cmd.InvalidDropByIptables: "true"},
 			},
-			golden: filepath.Join(env.IstioSrc, "cni/pkg/plugin/testdata/invalid-drop.txt.golden"),
+			golden: filepath.Join(env.CodesealerSrc, "cni/pkg/plugin/testdata/invalid-drop.txt.golden"),
 		},
 		{
 			name: "custom-uid",
 			input: &PodInfo{
-				Containers:  sets.New("test", "istio-proxy", "istio-validate"),
+				Containers:  sets.New("test", "codesealer-proxy", "codesealer-validate"),
 				Annotations: map[string]string{annotation.SidecarStatus.Name: "true"},
 				ProxyUID:    &customUID,
 				ProxyGID:    &customGID,
 			},
-			golden: filepath.Join(env.IstioSrc, "cni/pkg/plugin/testdata/custom-uid.txt.golden"),
+			golden: filepath.Join(env.CodesealerSrc, "cni/pkg/plugin/testdata/custom-uid.txt.golden"),
 		},
 		{
 			name: "custom-uid-zero",
 			input: &PodInfo{
-				Containers:  sets.New("test", "istio-proxy", "istio-validate"),
+				Containers:  sets.New("test", "codesealer-proxy", "codesealer-validate"),
 				Annotations: map[string]string{annotation.SidecarStatus.Name: "true"},
 				ProxyUID:    &zero,
 			},
-			golden: filepath.Join(env.IstioSrc, "cni/pkg/plugin/testdata/basic.txt.golden"),
+			golden: filepath.Join(env.CodesealerSrc, "cni/pkg/plugin/testdata/basic.txt.golden"),
 		},
 		{
 			name: "custom-uid-tproxy",
 			input: &PodInfo{
-				Containers: sets.New("test", "istio-proxy", "istio-validate"),
+				Containers: sets.New("test", "codesealer-proxy", "codesealer-validate"),
 				Annotations: map[string]string{
 					annotation.SidecarStatus.Name:           "true",
 					annotation.SidecarInterceptionMode.Name: redirectModeTPROXY,
@@ -192,7 +192,7 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 				ProxyUID: &customUID,
 				ProxyGID: &customGID,
 			},
-			golden: filepath.Join(env.IstioSrc, "cni/pkg/plugin/testdata/custom-uid-tproxy.txt.golden"),
+			golden: filepath.Join(env.CodesealerSrc, "cni/pkg/plugin/testdata/custom-uid-tproxy.txt.golden"),
 		},
 	}
 

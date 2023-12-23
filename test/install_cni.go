@@ -49,12 +49,12 @@ const (
 	cniNetworkConfigName = "CNI_NETWORK_CONFIG"
 	cniNetworkConfig     = `{
   "cniVersion": "0.3.1",
-  "type": "istio-cni",
+  "type": "codesealer-cni",
   "log_level": "info",
   "kubernetes": {
       "kubeconfig": "__KUBECONFIG_FILEPATH__",
       "cni_bin_dir": "/opt/cni/bin",
-      "exclude_namespaces": [ "istio-system" ]
+      "exclude_namespaces": [ "codesealer-system" ]
   }
 }
 `
@@ -115,7 +115,7 @@ func rmDir(dir string, t *testing.T) {
 	}
 }
 
-// Removes Istio CNI's config from the CNI config file
+// Removes Codesealer CNI's config from the CNI config file
 func rmCNIConfig(cniConfigFilepath string, t *testing.T) {
 	t.Helper()
 
@@ -125,7 +125,7 @@ func rmCNIConfig(cniConfigFilepath string, t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// Find Istio CNI and remove from plugin list
+	// Find Codesealer CNI and remove from plugin list
 	plugins, err := util.GetPlugins(cniConfigMap)
 	if err != nil {
 		t.Fatal(err)
@@ -135,7 +135,7 @@ func rmCNIConfig(cniConfigFilepath string, t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if plugin["type"] == "istio-cni" {
+		if plugin["type"] == "codesealer-cni" {
 			cniConfigMap["plugins"] = append(plugins[:i], plugins[i+1:]...)
 			break
 		}
@@ -308,7 +308,7 @@ func doTest(t *testing.T, chainedCNIPlugin bool, wd, preConfFile, resultFileName
 	}
 
 	compareConfResult(resultFile, expectedOutputFile, t)
-	checkBinDir(t, tempCNIBinDir, "add", "istio-cni")
+	checkBinDir(t, tempCNIBinDir, "add", "codesealer-cni")
 
 	// Test script restart by removing configuration
 	if chainedCNIPlugin {
@@ -318,7 +318,7 @@ func doTest(t *testing.T, chainedCNIPlugin bool, wd, preConfFile, resultFileName
 	}
 	// Verify configuration is still valid after removal
 	compareConfResult(resultFile, expectedOutputFile, t)
-	t.Log("PASS: Istio CNI configuration still valid after removal")
+	t.Log("PASS: Codesealer CNI configuration still valid after removal")
 
 	// Shutdown the install-cni
 	cancel()
@@ -333,10 +333,10 @@ func doTest(t *testing.T, chainedCNIPlugin bool, wd, preConfFile, resultFileName
 		}
 	} else {
 		if file.Exists(resultFile) {
-			t.Logf("FAIL: Istio CNI config file was not removed: %s", resultFile)
+			t.Logf("FAIL: Codesealer CNI config file was not removed: %s", resultFile)
 		}
 	}
-	checkBinDir(t, tempCNIBinDir, "del", "istio-cni")
+	checkBinDir(t, tempCNIBinDir, "del", "codesealer-cni")
 	checkTempFilesCleaned(tempCNIConfDir, t)
 }
 

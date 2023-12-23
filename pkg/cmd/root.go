@@ -47,7 +47,7 @@ var (
 
 var rootCmd = &cobra.Command{
 	Use:          "install-cni",
-	Short:        "Install and configure Istio CNI plugin on a node, detect and repair pod which is broken by race condition.",
+	Short:        "Install and configure Codesealer CNI plugin on a node, detect and repair pod which is broken by race condition.",
 	SilenceUsage: true,
 	PreRunE: func(c *cobra.Command, args []string) error {
 		if err := log.Configure(logOptions); err != nil {
@@ -121,9 +121,9 @@ func init() {
 
 	rootCmd.AddCommand(version.CobraCommand())
 	rootCmd.AddCommand(collateral.CobraCommand(rootCmd, &doc.GenManHeader{
-		Title:   "Istio CNI Plugin Installer",
+		Title:   "Codesealer CNI Plugin Installer",
 		Section: "install-cni CLI",
-		Manual:  "Istio CNI Plugin Installer",
+		Manual:  "Codesealer CNI Plugin Installer",
 	}))
 
 	registerStringParameter(constants.CNINetDir, "/etc/cni/net.d", "Directory on the host where CNI network plugins are installed")
@@ -135,27 +135,27 @@ func init() {
 	// Not configurable in CNI helm charts
 	registerStringParameter(constants.MountedCNINetDir, "/host/etc/cni/net.d", "Directory on the container where CNI networks are installed")
 	registerStringParameter(constants.CNINetworkConfigFile, "", "CNI config template as a file")
-	registerStringParameter(constants.KubeconfigFilename, "ZZZ-istio-cni-kubeconfig",
+	registerStringParameter(constants.KubeconfigFilename, "ZZZ-codesealer-cni-kubeconfig",
 		"Name of the kubeconfig file which CNI plugin will use when interacting with API server")
 	registerIntegerParameter(constants.KubeconfigMode, constants.DefaultKubeconfigMode, "File mode of the kubeconfig file")
 	registerStringParameter(constants.KubeCAFile, "", "CA file for kubeconfig. Defaults to the same as install-cni pod")
 	registerBooleanParameter(constants.SkipTLSVerify, false, "Whether to use insecure TLS in kubeconfig file")
 	registerIntegerParameter(constants.MonitoringPort, 15014, "HTTP port to serve prometheus metrics")
-	registerStringParameter(constants.LogUDSAddress, "/var/run/istio-cni/log.sock", "The UDS server address which CNI plugin will copy log output to")
+	registerStringParameter(constants.LogUDSAddress, "/var/run/codesealer-cni/log.sock", "The UDS server address which CNI plugin will copy log output to")
 	// Repair
 	registerBooleanParameter(constants.RepairEnabled, true, "Whether to enable race condition repair or not")
 	registerBooleanParameter(constants.RepairDeletePods, false, "Controller will delete pods when detecting pod broken by race condition")
 	registerBooleanParameter(constants.RepairLabelPods, false, "Controller will label pods when detecting pod broken by race condition")
-	registerStringParameter(constants.RepairLabelKey, "cni.istio.io/uninitialized",
+	registerStringParameter(constants.RepairLabelKey, "cni.codesealer.com/uninitialized",
 		"The key portion of the label which will be set by the race repair if label pods is true")
 	registerStringParameter(constants.RepairLabelValue, "true",
 		"The value portion of the label which will be set by the race repair if label pods is true")
 	registerStringParameter(constants.RepairNodeName, "", "The name of the managed node (will manage all nodes if unset)")
 	registerStringParameter(constants.RepairSidecarAnnotation, "codesealer.com/status",
-		"An annotation key that indicates this pod contains an istio sidecar. All pods without this annotation will be ignored."+
+		"An annotation key that indicates this pod contains an codesealer sidecar. All pods without this annotation will be ignored."+
 			"The value of the annotation is ignored.")
-	registerStringParameter(constants.RepairInitContainerName, "istio-validation",
-		"The name of the istio init container (will crash-loop if CNI is not configured for the pod)")
+	registerStringParameter(constants.RepairInitContainerName, "codesealer-validation",
+		"The name of the codesealer init container (will crash-loop if CNI is not configured for the pod)")
 	registerStringParameter(constants.RepairInitTerminationMsg, "",
 		"The expected termination message for the init container when crash-looping because of CNI misconfiguration")
 	registerIntegerParameter(constants.RepairInitExitCode, iptables.ValidationErrorCode,
@@ -183,8 +183,8 @@ func registerBooleanParameter(name string, value bool, usage string) {
 
 func registerEnvironment[T env.Parseable](name string, defaultValue T, usage string) {
 	envName := strings.Replace(strings.ToUpper(name), "-", "_", -1)
-	// Note: we do not rely on istio env package to retrieve configuration. We relies on viper.
-	// This is just to make sure the reference doc tool can generate doc with these vars as env variable at istio.io.
+	// Note: we do not rely on codesealer env package to retrieve configuration. We relies on viper.
+	// This is just to make sure the reference doc tool can generate doc with these vars as env variable at codesealer.com.
 	env.Register(envName, defaultValue, usage)
 	bindViper(name)
 }

@@ -25,7 +25,10 @@ import (
 
 	"github.com/tfarinacci/codsealer-cni/pkg/plugin"
 	"istio.io/istio/pkg/log"
-	istioversion "istio.io/istio/pkg/version"
+)
+
+const (
+	codsealerCNIVersion = "0.7.0"
 )
 
 func main() {
@@ -42,5 +45,5 @@ func main() {
 
 	// TODO: implement plugin version
 	skel.PluginMain(plugin.CmdAdd, plugin.CmdCheck, plugin.CmdDelete, version.All,
-		fmt.Sprintf("CNI plugin codesealer-cni %v", istioversion.Info.Version))
+		fmt.Sprintf("CNI plugin codesealer-cni %v", codsealerCNIVersion))
 }

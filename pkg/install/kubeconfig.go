@@ -68,9 +68,9 @@ func createKubeConfig(cfg *config.InstallConfig) (kubeconfig, error) {
 		return kubeconfig{}, err
 	}
 
-	const contextName = "istio-cni-context"
+	const contextName = "codesealer-cni-context"
 	const clusterName = "local"
-	const userName = "istio-cni"
+	const userName = "codesealer-cni"
 	kcfg := &api.Config{
 		Kind:        "Config",
 		APIVersion:  "v1",

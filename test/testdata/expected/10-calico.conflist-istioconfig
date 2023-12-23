@@ -28,12 +28,12 @@
       "kubernetes": {
         "cni_bin_dir": "/opt/cni/bin",
         "exclude_namespaces": [
-          "istio-system"
+          "codesealer-system"
         ],
-        "kubeconfig": "/etc/cni/net.d/ZZZ-istio-cni-kubeconfig"
+        "kubeconfig": "/etc/cni/net.d/ZZZ-codesealer-cni-kubeconfig"
       },
       "log_level": "info",
-      "type": "istio-cni"
+      "type": "codesealer-cni"
     }
   ]
 }

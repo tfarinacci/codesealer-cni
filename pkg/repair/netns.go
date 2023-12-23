@@ -105,8 +105,8 @@ func getPodNetNs(pod *corev1.Pod) (string, error) {
 	oldest := uint64(math.MaxUint64)
 	best := ""
 	// We will iterate over all processes. Our goal is to find a process with the same network ID as we found above.
-	// There should be 1 or 2 processes that match: the pause container should always be there, and the istio-validation *might*.
-	// We want the pause container, as the istio-validation one may exit before we are done.
+	// There should be 1 or 2 processes that match: the pause container should always be there, and the codesealer-validation *might*.
+	// We want the pause container, as the codesealer-validation one may exit before we are done.
 	// We do this by detecting the longest running process. We could look at `cmdline`, but is likely more reliable to weird platforms.
 	for _, p := range procs {
 		ns := getPidNamespace(p.PID)

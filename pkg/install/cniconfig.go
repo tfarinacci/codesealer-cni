@@ -133,7 +133,7 @@ func writeCNIConfig(ctx context.Context, cniConfig []byte, cfg pluginConfig) (st
 		if !file.Exists(cniConfigFilepath) {
 			return "", fmt.Errorf("CNI config file %s removed during configuration", cniConfigFilepath)
 		}
-		// This section overwrites an existing plugins list entry for istio-cni
+		// This section overwrites an existing plugins list entry for codesealer-cni
 		existingCNIConfig, err := os.ReadFile(cniConfigFilepath)
 		if err != nil {
 			return "", err
@@ -171,7 +171,7 @@ func getCNIConfigFilepath(ctx context.Context, cfg pluginConfig) (string, error)
 
 	if !cfg.chainedCNIPlugin {
 		if len(filename) == 0 {
-			filename = "YYY-istio-cni.conf"
+			filename = "YYY-codesealer-cni.conf"
 		}
 		return filepath.Join(cfg.mountedCNINetDir, filename), nil
 	}
@@ -187,7 +187,7 @@ func getCNIConfigFilepath(ctx context.Context, cfg pluginConfig) (string, error)
 		if err == nil {
 			break
 		}
-		installLog.Warnf("Istio CNI is configured as chained plugin, but cannot find existing CNI network config: %v", err)
+		installLog.Warnf("Codesealer CNI is configured as chained plugin, but cannot find existing CNI network config: %v", err)
 		installLog.Infof("Waiting for CNI network config file to be written in %v...", cfg.mountedCNINetDir)
 		if err := watcher.Wait(ctx); err != nil {
 			return "", err
@@ -266,12 +266,12 @@ func getDefaultCNINetwork(confDir string) (string, error) {
 	return "", fmt.Errorf("no valid networks found in %s", confDir)
 }
 
-// newCNIConfig = istio-cni config, that should be inserted into existingCNIConfig
+// newCNIConfig = codesealer-cni config, that should be inserted into existingCNIConfig
 func insertCNIConfig(newCNIConfig, existingCNIConfig []byte) ([]byte, error) {
-	var istioMap map[string]any
-	err := json.Unmarshal(newCNIConfig, &istioMap)
+	var codesealerMap map[string]any
+	err := json.Unmarshal(newCNIConfig, &codesealerMap)
 	if err != nil {
-		return nil, fmt.Errorf("error loading Istio CNI config (JSON error): %v", err)
+		return nil, fmt.Errorf("error loading Codesealer CNI config (JSON error): %v", err)
 	}
 
 	var existingMap map[string]any
@@ -280,7 +280,7 @@ func insertCNIConfig(newCNIConfig, existingCNIConfig []byte) ([]byte, error) {
 		return nil, fmt.Errorf("error loading existing CNI config (JSON error): %v", err)
 	}
 
-	delete(istioMap, "cniVersion")
+	delete(codesealerMap, "cniVersion")
 
 	var newMap map[string]any
 
@@ -290,7 +290,7 @@ func insertCNIConfig(newCNIConfig, existingCNIConfig []byte) ([]byte, error) {
 
 		plugins := make([]map[string]any, 2)
 		plugins[0] = existingMap
-		plugins[1] = istioMap
+		plugins[1] = codesealerMap
 
 		newMap = map[string]any{
 			"name":       "k8s-pod-network",
@@ -310,13 +310,13 @@ func insertCNIConfig(newCNIConfig, existingCNIConfig []byte) ([]byte, error) {
 			if err != nil {
 				return nil, fmt.Errorf("existing CNI plugin: %v", err)
 			}
-			if plugin["type"] == "istio-cni" {
+			if plugin["type"] == "codesealer-cni" {
 				plugins = append(plugins[:i], plugins[i+1:]...)
 				break
 			}
 		}
 
-		newMap["plugins"] = append(plugins, istioMap)
+		newMap["plugins"] = append(plugins, codesealerMap)
 	}
 
 	return util.MarshalCNIConfig(newMap)

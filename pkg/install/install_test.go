@@ -66,7 +66,7 @@ func TestCheckInstall(t *testing.T) {
 			cniConfigFilename: "file-removed.conflist",
 		},
 		{
-			name:              "istio-cni config removed from CNI config file",
+			name:              "codesealer-cni config removed from CNI config file",
 			expectedFailure:   true,
 			cniConfigFilename: "list.conflist",
 			chainedCNIPlugin:  true,
@@ -79,15 +79,15 @@ func TestCheckInstall(t *testing.T) {
 			existingConfFiles: map[string]string{"list.conflist.golden": "list.conflist"},
 		},
 		{
-			name:              "standalone CNI plugin istio-cni config not in CNI config file",
+			name:              "standalone CNI plugin codesealer-cni config not in CNI config file",
 			expectedFailure:   true,
 			cniConfigFilename: "bridge.conf",
 			existingConfFiles: map[string]string{"bridge.conf": "bridge.conf"},
 		},
 		{
 			name:              "standalone CNI plugin",
-			cniConfigFilename: "istio-cni.conf",
-			existingConfFiles: map[string]string{"istio-cni.conf": "istio-cni.conf"},
+			cniConfigFilename: "codesealer-cni.conf",
+			existingConfFiles: map[string]string{"codesealer-cni.conf": "codesealer-cni.conf"},
 		},
 	}
 
@@ -136,8 +136,8 @@ func TestSleepCheckInstall(t *testing.T) {
 		},
 		{
 			name:                "standalone CNI plugin",
-			cniConfigFilename:   "istio-cni.conf",
-			validConfigFilename: "istio-cni.conf",
+			cniConfigFilename:   "codesealer-cni.conf",
+			validConfigFilename: "codesealer-cni.conf",
 			saFilename:          "token-foo",
 			saNewFilename:       "token-bar",
 		},
@@ -255,7 +255,7 @@ func TestSleepCheckInstall(t *testing.T) {
 				}(ctx, in)
 			}
 
-			// Remove Istio CNI's config
+			// Remove Codesealer CNI's config
 			t.Log("Expecting an invalid configuration log:")
 			if len(c.invalidConfigFilename) > 0 {
 				if err := file.AtomicCopy(filepath.Join("testdata", c.invalidConfigFilename), tempDir, c.cniConfigFilename); err != nil {
@@ -295,13 +295,13 @@ func TestCleanup(t *testing.T) {
 			name:                   "chained CNI plugin",
 			chainedCNIPlugin:       true,
 			configFilename:         "list.conflist",
-			existingConfigFilename: "list-with-istio.conflist",
-			expectedConfigFilename: "list-no-istio.conflist",
+			existingConfigFilename: "list-with-codesealer.conflist",
+			expectedConfigFilename: "list-no-codesealer.conflist",
 		},
 		{
 			name:                   "standalone CNI plugin",
-			configFilename:         "istio-cni.conf",
-			existingConfigFilename: "istio-cni.conf",
+			configFilename:         "codesealer-cni.conf",
+			existingConfigFilename: "codesealer-cni.conf",
 		},
 	}
 
@@ -318,7 +318,7 @@ func TestCleanup(t *testing.T) {
 			}
 
 			// Create existing binary files
-			if err := os.WriteFile(filepath.Join(cniBinDir, "istio-cni"), []byte{1, 2, 3}, 0o755); err != nil {
+			if err := os.WriteFile(filepath.Join(cniBinDir, "codesealer-cni"), []byte{1, 2, 3}, 0o755); err != nil {
 				t.Fatal(err)
 			}
 
@@ -361,8 +361,8 @@ func TestCleanup(t *testing.T) {
 			}
 
 			// check if binaries are deleted
-			if file.Exists(filepath.Join(cniBinDir, "istio-cni")) {
-				t.Fatalf("File %s was not deleted", "istio-cni")
+			if file.Exists(filepath.Join(cniBinDir, "codesealer-cni")) {
+				t.Fatalf("File %s was not deleted", "codesealer-cni")
 			}
 		})
 	}

@@ -85,7 +85,7 @@ Codesealer CNI injection is currently based on the same Pod annotations used in 
     - creates service-account `codesealer-cni` with `ClusterRoleBinding` to allow gets on pods' info and delete/modifications for recovery.
 
 - `install-cni` container
-    - copies `codesealer-cni` and `istio-iptables` to `/opt/cni/bin`
+    - copies `codesealer-cni` and `codesealer-iptables` to `/opt/cni/bin`
     - creates kubeconfig for the service account the pod runs under
     - periodically copy the K8S JWT token for codesealer-cni on the host to connect to K8S.
     - injects the CNI plugin config to the CNI config file
@@ -94,18 +94,18 @@ Codesealer CNI injection is currently based on the same Pod annotations used in 
         - the program inserts `CNI_NETWORK_CONFIG` into the `plugins` list in `/etc/cni/net.d/${CNI_CONF_NAME}`
     - the actual code is in pkg/install - including a readiness probe, monitoring.
     - it also sets up a UDS socket for codesealer-cni to send logs to this container.
-    - based on config, it may run the 'repair' controller that detects pods where istio setup fails and restarts them, or created in corner cases.
+    - based on config, it may run the 'repair' controller that detects pods where codesealer setup fails and restarts them, or created in corner cases.
 
 - `codesealer-cni`
     - CNI plugin executable copied to `/opt/cni/bin`
     - currently implemented for k8s only
     - on pod add, determines whether pod should have netns setup to redirect to Codesealer proxy. See [cmdAdd](#cmdadd-workflow) for detailed logic.
         - it connects to K8S using the kubeconfig and JWT token copied from install-cni to get Pod and Namespace. Since this is a short-running command, each invocation creates a new connection.
-        - If so, calls `istio-iptables` with params to setup pod netns
+        - If so, calls `codesealer-iptables` with params to setup pod netns
 
 - `codesealer-iptables`
     - sets up iptables to redirect a list of ports to the port envoy will listen
-    - shared code with istio-init container
+    - shared code with codesealer-init container
     - it will generate an iptables-save config, based on annotations/labels and other settings, and apply it.
 
 ### CmdAdd Workflow
@@ -118,9 +118,9 @@ run after the main CNI sets up the pod IP and networking.
     - If excluded, ignore the pod and return prevResult
 1. Setup redirect rules for the pods:
     - Get the port list from pods definition, as well as annotations.
-    - Setup iptables with required port list: `nsenter --net=<k8s pod netns> /opt/cni/bin/istio-iptables ...`. Following conditions will prevent the redirect rules to be setup in the pods:
+    - Setup iptables with required port list: `nsenter --net=<k8s pod netns> /opt/cni/bin/codesealer-iptables ...`. Following conditions will prevent the redirect rules to be setup in the pods:
         - Pods have annotation `sidecar.codesealer.com/inject` set to `false` or has no key `sidecar.codesealer.com/status` in annotations
-        - Pod has `istio-init` initContainer - this indicates a pod running its own injection setup.
+        - Pod has `codesealer-init-networking` initContainer - this indicates a pod running its own injection setup.
 1. Return prevResult
 
 ## Reference

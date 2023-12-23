@@ -35,7 +35,7 @@ var (
 	ifname           = "eth0"
 	sandboxDirectory = "/tmp"
 	currentVersion   = "1.0.0"
-	k8Args           = "K8S_POD_NAMESPACE=istio-system;K8S_POD_NAME=testPodName"
+	k8Args           = "K8S_POD_NAMESPACE=codesealer-system;K8S_POD_NAME=testPodName"
 	invalidVersion   = "0.1.0"
 	preVersion       = "0.2.0"
 
@@ -51,7 +51,7 @@ var (
 
 var conf = `{
     "cniVersion": "%s",
-	"name": "istio-plugin-sample-test",
+	"name": "codesealer-plugin-sample-test",
 	"type": "sample",
     "capabilities": {
         "testCapability": false
@@ -140,7 +140,7 @@ func resetGlobalTestVariables() {
 	testProxyEnv = map[string]string{}
 
 	testAnnotations[sidecarStatusKey] = "true"
-	k8Args = "K8S_POD_NAMESPACE=istio-system;K8S_POD_NAME=testPodName"
+	k8Args = "K8S_POD_NAMESPACE=codesealer-system;K8S_POD_NAME=testPodName"
 }
 
 func testSetArgs(stdinData string) *skel.CmdArgs {
@@ -197,8 +197,8 @@ func testCmdAddWithStdinData(t *testing.T, stdinData string) {
 
 // Validate k8sArgs struct works for unmarshalling kubelet args
 func TestLoadArgs(t *testing.T) {
-	kubeletArgs := "IgnoreUnknown=1;K8S_POD_NAMESPACE=istio-system;" +
-		"K8S_POD_NAME=istio-sidecar-injector-8489cf78fb-48pvg;" +
+	kubeletArgs := "IgnoreUnknown=1;K8S_POD_NAMESPACE=codesealer-system;" +
+		"K8S_POD_NAME=codesealer-sidecar-injector-8489cf78fb-48pvg;" +
 		"K8S_POD_INFRA_CONTAINER_ID=3c41e946cf17a32760ff86940a73b06982f1815e9083cf2f4bfccb9b7605f326"
 
 	k8sArgs := K8sArgs{}
@@ -221,7 +221,7 @@ func TestCmdAdd(t *testing.T) {
 func TestCmdAddTwoContainersWithAnnotation(t *testing.T) {
 	defer resetGlobalTestVariables()
 
-	testContainers = sets.New("mockContainer", "istio-proxy")
+	testContainers = sets.New("mockContainer", "codesealer-proxy")
 	testAnnotations[injectAnnotationKey] = "false"
 
 	testCmdAdd(t)
@@ -230,7 +230,7 @@ func TestCmdAddTwoContainersWithAnnotation(t *testing.T) {
 func TestCmdAddTwoContainersWithLabel(t *testing.T) {
 	defer resetGlobalTestVariables()
 
-	testContainers = sets.New("mockContainer", "istio-proxy")
+	testContainers = sets.New("mockContainer", "codesealer-proxy")
 	testAnnotations[label.SidecarInject.Name] = "false"
 
 	testCmdAdd(t)
@@ -239,7 +239,7 @@ func TestCmdAddTwoContainersWithLabel(t *testing.T) {
 func TestCmdAddTwoContainers(t *testing.T) {
 	defer resetGlobalTestVariables()
 	testAnnotations[injectAnnotationKey] = "true"
-	testContainers = sets.New("mockContainer", "istio-proxy")
+	testContainers = sets.New("mockContainer", "codesealer-proxy")
 
 	testCmdAdd(t)
 
@@ -252,14 +252,14 @@ func TestCmdAddTwoContainers(t *testing.T) {
 	}
 	r := mockIntercept.lastRedirect[len(mockIntercept.lastRedirect)-1]
 	if r.includeInboundPorts != "*" {
-		t.Fatalf("expect includeInboundPorts has value '*' set by istio, actual %v", r.includeInboundPorts)
+		t.Fatalf("expect includeInboundPorts has value '*' set by codesealer, actual %v", r.includeInboundPorts)
 	}
 }
 
 func TestCmdAddTwoContainersWithStarInboundPort(t *testing.T) {
 	defer resetGlobalTestVariables()
 	testAnnotations[includeInboundPortsKey] = "*"
-	testContainers = sets.New("mockContainer", "istio-proxy")
+	testContainers = sets.New("mockContainer", "codesealer-proxy")
 	testCmdAdd(t)
 
 	if !nsenterFuncCalled {
@@ -278,7 +278,7 @@ func TestCmdAddTwoContainersWithStarInboundPort(t *testing.T) {
 func TestCmdAddTwoContainersWithEmptyInboundPort(t *testing.T) {
 	defer resetGlobalTestVariables()
 	delete(testAnnotations, includeInboundPortsKey)
-	testContainers = sets.New("mockContainer", "istio-proxy")
+	testContainers = sets.New("mockContainer", "codesealer-proxy")
 	testAnnotations[includeInboundPortsKey] = ""
 	testCmdAdd(t)
 
@@ -298,7 +298,7 @@ func TestCmdAddTwoContainersWithEmptyInboundPort(t *testing.T) {
 func TestCmdAddTwoContainersWithEmptyExcludeInboundPort(t *testing.T) {
 	defer resetGlobalTestVariables()
 	delete(testAnnotations, includeInboundPortsKey)
-	testContainers = sets.New("mockContainer", "istio-proxy")
+	testContainers = sets.New("mockContainer", "codesealer-proxy")
 	testAnnotations[excludeInboundPortsKey] = ""
 	testCmdAdd(t)
 
@@ -318,7 +318,7 @@ func TestCmdAddTwoContainersWithEmptyExcludeInboundPort(t *testing.T) {
 func TestCmdAddTwoContainersWithExplictExcludeInboundPort(t *testing.T) {
 	defer resetGlobalTestVariables()
 	delete(testAnnotations, includeInboundPortsKey)
-	testContainers = sets.New("mockContainer", "istio-proxy")
+	testContainers = sets.New("mockContainer", "codesealer-proxy")
 	testAnnotations[excludeInboundPortsKey] = "3306"
 	testCmdAdd(t)
 
@@ -339,7 +339,7 @@ func TestCmdAddTwoContainersWithoutSideCar(t *testing.T) {
 	defer resetGlobalTestVariables()
 
 	delete(testAnnotations, sidecarStatusKey)
-	testContainers = sets.New("mockContainer", "istio-proxy")
+	testContainers = sets.New("mockContainer", "codesealer-proxy")
 	testCmdAdd(t)
 
 	if nsenterFuncCalled {
@@ -364,7 +364,7 @@ func TestCmdAddExcludePodWithIstioInitContainer(t *testing.T) {
 	defer resetGlobalTestVariables()
 
 	k8Args = "K8S_POD_NAMESPACE=testNS;K8S_POD_NAME=testPodName"
-	testContainers = sets.New("mockContainer", "foo-init", "istio-init")
+	testContainers = sets.New("mockContainer", "foo-init", "codesealer-init")
 	testAnnotations[sidecarStatusKey] = "true"
 	getKubePodInfoCalled = true
 
@@ -379,7 +379,7 @@ func TestCmdAddExcludePodWithEnvoyDisableEnv(t *testing.T) {
 	defer resetGlobalTestVariables()
 
 	k8Args = "K8S_POD_NAMESPACE=testNS;K8S_POD_NAME=testPodName"
-	testContainers = sets.New("mockContainer", "istio-proxy", "foo-init")
+	testContainers = sets.New("mockContainer", "codesealer-proxy", "foo-init")
 	testAnnotations[sidecarStatusKey] = "true"
 	testProxyEnv["DISABLE_CODESEALER"] = "true"
 	getKubePodInfoCalled = true
@@ -430,7 +430,7 @@ func TestCmdAddWithExcludeInterfaces(t *testing.T) {
 func TestCmdAddInvalidK8sArgsKeyword(t *testing.T) {
 	defer resetGlobalTestVariables()
 
-	k8Args = "K8S_POD_NAMESPACE_InvalidKeyword=istio-system"
+	k8Args = "K8S_POD_NAMESPACE_InvalidKeyword=codesealer-system"
 
 	cniConf := fmt.Sprintf(conf, currentVersion, currentVersion, ifname, sandboxDirectory, "mock")
 	args := testSetArgs(cniConf)
@@ -454,7 +454,7 @@ func TestCmdAddInvalidVersion(t *testing.T) {
 func TestCmdAddNoPrevResult(t *testing.T) {
 	confNoPrevResult := `{
     "cniVersion": "1.0.0",
-	"name": "istio-plugin-sample-test",
+	"name": "codesealer-plugin-sample-test",
 	"type": "sample",
     "runtimeconfig": {
          "sampleconfig": []
@@ -475,8 +475,8 @@ func TestCmdAddNoPrevResult(t *testing.T) {
 
 func TestCmdAddEnableDualStack(t *testing.T) {
 	defer resetGlobalTestVariables()
-	testProxyEnv["ISTIO_DUAL_STACK"] = "true"
-	testContainers = sets.New("mockContainer", "istio-proxy")
+	testProxyEnv["CODESEALER_DUAL_STACK"] = "true"
+	testContainers = sets.New("mockContainer", "codesealer-proxy")
 	testCmdAdd(t)
 
 	if !nsenterFuncCalled {

@@ -24,12 +24,12 @@ var (
 	resultCreateCNIConfigFailure  = "CREATE_CNI_CONFIG_FAILURE"
 
 	cniInstalls = monitoring.NewSum(
-		"istio_cni_installs_total",
+		"codesealer_cni_installs_total",
 		"Total number of CNI plugins installed by the Istio CNI installer",
 	)
 
 	installReady = monitoring.NewGauge(
-		"istio_cni_install_ready",
+		"codesealer_cni_install_ready",
 		"Whether the CNI plugin installation is ready or not",
 	)
 )

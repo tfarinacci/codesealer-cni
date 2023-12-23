@@ -30,7 +30,7 @@ var (
 	resultFail    = "fail"
 
 	podsRepaired = monitoring.NewSum(
-		"istio_cni_repair_pods_repaired_total",
+		"codesealer_cni_repair_pods_repaired_total",
 		"Total number of pods repaired by repair controller",
 	)
 )

@@ -24,7 +24,7 @@ type Config struct {
 	RepairConfig  RepairConfig
 }
 
-// InstallConfig struct defines the Istio CNI installation options
+// InstallConfig struct defines the Codesealer CNI installation options
 type InstallConfig struct {
 	// Location of the CNI config files in the host's filesystem
 	CNINetDir string
@@ -72,7 +72,7 @@ type InstallConfig struct {
 	LogUDSAddress string
 }
 
-// RepairConfig struct defines the Istio CNI race repair configuration
+// RepairConfig struct defines the Codesealer CNI race repair configuration
 type RepairConfig struct {
 	// Whether to enable CNI race repair
 	Enabled bool

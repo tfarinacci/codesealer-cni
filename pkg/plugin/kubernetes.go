@@ -55,7 +55,7 @@ func newK8sClient(conf Config) (*kubernetes.Clientset, error) {
 		return nil, err
 	}
 
-	log.Debugf("istio-cni set up kubernetes client with kubeconfig %s", kubeconfig)
+	log.Debugf("codesealer-cni set up kubernetes client with kubeconfig %s", kubeconfig)
 
 	// Create the clientset
 	return kubernetes.NewForConfig(config)
@@ -83,8 +83,8 @@ func ExtractPodInfo(pod *v1.Pod) *PodInfo {
 	}
 	for _, c := range containers(pod) {
 		pi.Containers.Insert(c.Name)
-		if c.Name == ISTIOPROXY {
-			// don't include ports from istio-proxy in the redirect ports
+		if c.Name == CODESEALERPROXY {
+			// don't include ports from codesealer-proxy in the redirect ports
 			// Get proxy container env variable, and extract out ProxyConfig from it.
 			for _, e := range c.Env {
 				pi.ProxyEnvironments[e.Name] = e.Value
@@ -102,7 +102,7 @@ func ExtractPodInfo(pod *v1.Pod) *PodInfo {
 }
 
 // containers fetches all containers in the pod.
-// This is used to extract init containers (istio-init and istio-validation), and the sidecar.
+// This is used to extract init containers (codesealer-init and codesealer-validation), and the sidecar.
 // The sidecar can be a normal container or init in Kubernetes 1.28+
 func containers(pod *v1.Pod) []v1.Container {
 	res := make([]v1.Container, 0, len(pod.Spec.Containers)+len(pod.Spec.InitContainers))

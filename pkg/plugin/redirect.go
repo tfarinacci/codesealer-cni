@@ -73,7 +73,7 @@ var (
 	}
 )
 
-// Redirect -- the istio-cni redirect object
+// Redirect -- the codesealer-cni redirect object
 type Redirect struct {
 	targetPort           string
 	redirectMode         string
@@ -278,14 +278,14 @@ func NewRedirect(pi *PodInfo) (*Redirect, error) {
 		return nil, fmt.Errorf("annotation value error for value %s; annotationFound = %t: %v",
 			"kubevirtInterfaces", isFound, valErr)
 	}
-	if v, found := pi.ProxyEnvironments["ISTIO_META_DNS_CAPTURE"]; found {
+	if v, found := pi.ProxyEnvironments["CODESEALER_META_DNS_CAPTURE"]; found {
 		// parse and set the bool value of dnsRedirect
 		redir.dnsRedirect, valErr = strconv.ParseBool(v)
 		if valErr != nil {
 			log.Warnf("cannot parse DNS capture environment variable %v", valErr)
 		}
 	}
-	if v, found := pi.ProxyEnvironments["ISTIO_DUAL_STACK"]; found {
+	if v, found := pi.ProxyEnvironments["CODESEALER_DUAL_STACK"]; found {
 		// parse and set the bool value of dnsRedirect
 		redir.dualStack, valErr = strconv.ParseBool(v)
 		if valErr != nil {
