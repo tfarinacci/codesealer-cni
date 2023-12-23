@@ -24,10 +24,6 @@ Installation in `kube-system` is recommended to ensure the [`system-node-critica
 `priorityClassName` can be used. You can install in other namespace only on K8S clusters that allow
 'system-node-critical' outside of kube-system.
 
-## Ambient
-
-To enable ambient, you need to add `--set cni.ambient.enabled=true`.
-
 ### Calico
 
 For Calico, you must also modify the settings to allow source spoofing:

@@ -5,5 +5,5 @@ metadata:
   name: codesealer-cni
   namespace: default
   labels:
-    operator.codesealer.com/component: "Cni"
+    {{- include "codesealer-cni.labels" . | nindent 4 }}
 {{- end }}

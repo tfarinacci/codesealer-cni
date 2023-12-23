@@ -13,10 +13,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     k8s-app: codesealer-cni-node
-    release: {{ .Release.Name }}
-    codesealer.com/rev: {{ .Values.revision | default "default" }}
-    install.operator.codesealer.com/owning-resource: {{ .Values.ownerName | default "unknown" }}
-    operator.codesealer.com/component: "Cni"
+    {{- include "codesealer-cni.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
@@ -29,20 +26,22 @@ spec:
     metadata:
       labels:
         k8s-app: codesealer-cni-node
-        sidecar.codesealer.com/inject: "false"
+        codesealer.com/injection: "false"
+        {{- include "codesealer-cni.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.podAnnotations }}
       annotations:
-        sidecar.codesealer.com/inject: "false"
-        ambient.codesealer.com/redirection: disabled
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+        codesealer.com/injection: "false"
         # Add Prometheus Scrape annotations
         prometheus.io/scrape: 'true'
         prometheus.io/port: "15014"
         prometheus.io/path: '/metrics'
         # Custom annotations
-        {{- if .Values.cni.podAnnotations }}
-{{ toYaml .Values.cni.podAnnotations | indent 8 }}
-        {{- end }}
     spec:
-      {{if .Values.cni.ambient.enabled }}hostNetwork: true{{ end }}
       nodeSelector:
         kubernetes.io/os: linux
       # Can be configured to allow for excluding instio-cni from being scheduled on specified nodes
@@ -144,14 +143,6 @@ spec:
                   fieldPath: spec.nodeName
             - name: LOG_LEVEL
               value: {{ .Values.cni.logLevel | quote }}
-            {{- if .Values.cni.ambient.enabled }}
-            - name: AMBIENT_ENABLED
-              value: "true"
-            {{- if eq .Values.cni.ambient.redirectMode "ebpf"}}
-            - name: EBPF_ENABLED
-              value: "true"
-            {{- end }}
-            {{- end }}
             - name: GOMEMLIMIT
               valueFrom:
                 resourceFieldRef:
@@ -171,18 +162,9 @@ spec:
               name: cni-net-dir
             - mountPath: /var/run/codesealer-cni
               name: cni-log-dir
-            {{- if .Values.cni.ambient.enabled }}
-            - mountPath: /etc/ambient-config
-              name: cni-ambient-config-dir
             - mountPath: /var/run/netns
               mountPropagation: HostToContainer
               name: cni-netns-dir
-            {{- if eq .Values.cni.ambient.redirectMode "ebpf"}}
-            - mountPath: /sys/fs/bpf
-              mountPropagation: Bidirectional
-              name: cni-bpffs-dir
-            {{- end }}
-            {{ end }}
           resources:
 {{- if .Values.cni.resources }}
 {{ toYaml .Values.cni.resources | trim | indent 12 }}
@@ -200,11 +182,6 @@ spec:
             path: /proc
             type: Directory
         {{- end }}
-        {{- if .Values.cni.ambient.enabled }}
-        - name: cni-ambient-config-dir
-          hostPath:
-            path: {{ .Values.cni.ambient.configDir | default "/etc/ambient-config" }}
-        {{- end }}
         - name: cni-net-dir
           hostPath:
             path: {{ default "/etc/cni/net.d" .Values.cni.cniConfDir }}
@@ -217,8 +194,3 @@ spec:
             path: {{ .Values.cni.cniNetnsDir | default "/var/run/netns" }}
             type: Directory # this directory must exist on the node, if it does not,
             # consult your container runtime documentation for the appropriate path
-        {{- if eq .Values.cni.ambient.redirectMode "ebpf"}}
-        - name: cni-bpffs-dir
-          hostPath:
-            path: /sys/fs/bpf
-        {{- end }}

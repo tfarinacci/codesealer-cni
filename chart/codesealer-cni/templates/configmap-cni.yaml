@@ -9,11 +9,7 @@ metadata:
   name: codesealer-cni-config
   namespace: {{ .Release.Namespace }}
   labels:
-    app: codesealer-cni
-    release: {{ .Release.Name }}
-    codesealer.com/rev: {{ .Values.revision | default "default" }}
-    install.operator.codesealer.com/owning-resource: {{ .Values.ownerName | default "unknown" }}
-    operator.codesealer.com/component: "Cni"
+    {{- include "codesealer-cni.labels" . | nindent 4 }}
 data:
   # The CNI network configuration to add to the plugin chain on each node.  The special
   # values in this config will be automatically populated.
@@ -24,7 +20,6 @@ data:
           "type": "codesealer-cni",
           "log_level": {{ quote .Values.cni.logLevel }},
           "log_uds_address": "__LOG_UDS_ADDRESS__",
-          {{if .Values.cni.ambient.enabled}}"ambient_enabled": true,{{end}}
           "kubernetes": {
               "kubeconfig": "__KUBECONFIG_FILEPATH__",
               "cni_bin_dir": {{ .Values.cni.cniBinDir | default $defaultBinDir | quote }},
