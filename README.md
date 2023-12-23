@@ -119,7 +119,7 @@ run after the main CNI sets up the pod IP and networking.
 1. Setup redirect rules for the pods:
     - Get the port list from pods definition, as well as annotations.
     - Setup iptables with required port list: `nsenter --net=<k8s pod netns> /opt/cni/bin/codesealer-iptables ...`. Following conditions will prevent the redirect rules to be setup in the pods:
-        - Pods have annotation `codesealer.com/injection` set to `false` or has no key `sidecar.codesealer.com/status` in annotations
+        - Pods have annotation `codesealer.com/injection` set to `disabled` or has no key `sidecar.codesealer.com/status` in annotations
         - Pod has `codesealer-init-networking` initContainer - this indicates a pod running its own injection setup.
 1. Return prevResult
 

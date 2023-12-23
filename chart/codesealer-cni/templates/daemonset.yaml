@@ -26,21 +26,19 @@ spec:
     metadata:
       labels:
         k8s-app: codesealer-cni-node
-        codesealer.com/injection: "false"
+        codesealer.com/injection: disabled
         {{- include "codesealer-cni.labels" . | nindent 8 }}
-        {{- with .Values.podLabels }}
-        {{- toYaml . | nindent 8 }}
-        {{- end }}
-      {{- with .Values.podAnnotations }}
       annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-        codesealer.com/injection: "false"
+        codesealer.com/injection: disabled
+        ambient.codesealer.com/redirection: disabled
         # Add Prometheus Scrape annotations
         prometheus.io/scrape: 'true'
         prometheus.io/port: "15014"
         prometheus.io/path: '/metrics'
         # Custom annotations
+        {{- if .Values.cni.podAnnotations }}
+{{ toYaml .Values.cni.podAnnotations | indent 8 }}
+        {{- end }}
     spec:
       nodeSelector:
         kubernetes.io/os: linux
@@ -162,9 +160,6 @@ spec:
               name: cni-net-dir
             - mountPath: /var/run/codesealer-cni
               name: cni-log-dir
-            - mountPath: /var/run/netns
-              mountPropagation: HostToContainer
-              name: cni-netns-dir
           resources:
 {{- if .Values.cni.resources }}
 {{ toYaml .Values.cni.resources | trim | indent 12 }}

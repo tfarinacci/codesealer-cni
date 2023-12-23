@@ -70,6 +70,8 @@ cni:
   # documentation for the appropriate path.
   cniNetnsDir: # Defaults to '/var/run/netns', in minikube/docker/others can be '/var/run/docker/netns'.
 
+  ambient:
+    enabled: false
 
   excludeNamespaces:
     - istio-system
@@ -141,7 +143,7 @@ cni:
 revision: ""
 
 # For Helm compatibility.
-ownerName: ""
+ownerName: "Codesealer"
 
 global:
   # Default hub for Istio images.
