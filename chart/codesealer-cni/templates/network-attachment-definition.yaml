@@ -1,0 +1,9 @@
+{{- if eq .Values.cni.provider "multus" }}
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: codesealer-cni
+  namespace: default
+  labels:
+    operator.codesealer.com/component: "Cni"
+{{- end }}
