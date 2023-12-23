@@ -41,7 +41,7 @@ type testCase struct {
 }
 
 func TestInstall(t *testing.T) {
-	testDataDir := env.IstioSrc + "/cni/test/testdata"
+	testDataDir := env.CodesealerSrc + "/cni/test/testdata"
 	cases := []testCase{
 		{
 			name:                   "File with pre-plugins--.conflist",
