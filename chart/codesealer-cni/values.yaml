@@ -1,9 +1,9 @@
 cni:
-  hub: ""
-  tag: ""
+  hub: "tfarinacci"
+  tag: "latest"
   variant: ""
   image: codesealer-install-cni
-  pullPolicy: ""
+  pullPolicy: "IfNotPresent"
 
   # Configuration log level of istio-cni binary
   # by default istio-cni send all logs to UDS server
@@ -111,7 +111,7 @@ global:
   # Default hub for Istio images.
   # Releases are published to docker hub under 'istio' project.
   # Dev builds from prow are on gcr.io
-  hub: gcr.io/codesealer-testing
+  hub: tfarinacci
 
   # Default tag for Istio images.
   tag: latest

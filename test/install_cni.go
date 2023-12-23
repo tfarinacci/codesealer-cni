@@ -168,7 +168,7 @@ func populateTempDirs(wd string, cniDirOrderedFiles []string, tempCNIConfDir, te
 	t.Logf("Finished pre-populating working dirs")
 }
 
-// startDocker starts a test Docker container and runs the install-cni script.
+// startDocker starts a test Docker container and runs the codesealer-install-cni script.
 func runInstall(ctx context.Context, tempCNIConfDir, tempCNIBinDir,
 	tempK8sSvcAcctDir, cniConfFileName string, chainedCNIPlugin bool,
 ) {
@@ -193,7 +193,7 @@ func runInstall(ctx context.Context, tempCNIConfDir, tempCNIBinDir,
 		os.Unsetenv(chainedCNIPluginName)
 	}
 	if err := root.ExecuteContext(ctx); err != nil {
-		log.Errorf("error during install-cni execution")
+		log.Errorf("error during codesealer-install-cni execution")
 	}
 }
 
@@ -320,7 +320,7 @@ func doTest(t *testing.T, chainedCNIPlugin bool, wd, preConfFile, resultFileName
 	compareConfResult(resultFile, expectedOutputFile, t)
 	t.Log("PASS: Codesealer CNI configuration still valid after removal")
 
-	// Shutdown the install-cni
+	// Shutdown the codesealer-install-cni
 	cancel()
 	wg.Wait()
 

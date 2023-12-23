@@ -26,4 +26,4 @@ RUN chmod a+x /usr/local/bin/codesealer-install-cni
 
 ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/cni/bin
 WORKDIR /opt/cni/bin
-CMD ["/usr/local/bin/install-cni"]
+CMD ["/usr/local/bin/codesealer-install-cni"]

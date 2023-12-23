@@ -36,7 +36,7 @@ func main() {
 		os.Exit(1)
 	}
 	defer func() {
-		// Log sync will send logs to install-cni container via UDS.
+		// Log sync will send logs to codesealer-install-cni container via UDS.
 		// We don't need a timeout here because underlying the log pkg already handles it.
 		// this may fail, but it should be safe to ignore according
 		// to https://github.com/uber-go/zap/issues/328

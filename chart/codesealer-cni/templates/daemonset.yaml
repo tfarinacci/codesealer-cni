@@ -1,5 +1,5 @@
-# This manifest installs the Istio install-cni container, as well
-# as the Istio CNI plugin and config on
+# This manifest installs the Codesealer codesealer-install-cni container, as well
+# as the Istio CNI plugin and config on1
 # each master and worker node in a Kubernetes cluster.
 {{- $defaultBinDir :=
     (.Capabilities.KubeVersion.GitVersion | contains "-gke") | ternary
@@ -67,11 +67,11 @@ spec:
       containers:
         # This container installs the Istio CNI binaries
         # and CNI network config file on each node.
-        - name: install-cni
+        - name: codesealer-install-cni
 {{- if contains "/" .Values.cni.image }}
           image: "{{ .Values.cni.image }}"
 {{- else }}
-          image: "{{ .Values.cni.hub | default .Values.global.hub }}/{{ .Values.cni.image | default "install-cni" }}:{{ .Values.cni.tag | default .Values.global.tag }}{{with (.Values.cni.variant | default .Values.global.variant)}}-{{.}}{{end}}"
+          image: "{{ .Values.cni.hub | default .Values.global.hub }}/{{ .Values.cni.image | default "codesealer-install-cni" }}:{{ .Values.cni.tag | default .Values.global.tag }}{{with (.Values.cni.variant | default .Values.global.variant)}}-{{.}}{{end}}"
 {{- end }}
 {{- if or .Values.cni.pullPolicy .Values.global.imagePullPolicy }}
           imagePullPolicy: {{ .Values.cni.pullPolicy | default .Values.global.imagePullPolicy }}
@@ -89,7 +89,7 @@ spec:
             seccompProfile:
 {{ toYaml .Values.cni.seccompProfile | trim | indent 14 }}
 {{- end }}
-          command: ["install-cni"]
+          command: ["codesealer-install-cni"]
           args:
             {{- if .Values.global.logging.level }}
             - --log_output_level={{ .Values.global.logging.level }}

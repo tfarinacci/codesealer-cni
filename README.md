@@ -80,11 +80,11 @@ Codesealer CNI injection is currently based on the same Pod annotations used in 
 ### Overview
 
 - [codesealer-cni Helm chart](../manifests/charts/codesealer-cni/templates)
-    - `install-cni` daemonset - main function is to install and help the node CNI, but it is also a proper server and interacts with K8S, watching Pods for recovery.
+    - `codesealer-install-cni` daemonset - main function is to install and help the node CNI, but it is also a proper server and interacts with K8S, watching Pods for recovery.
     - `codesealer-cni-config` configmap with CNI plugin config to add to CNI plugin chained config
     - creates service-account `codesealer-cni` with `ClusterRoleBinding` to allow gets on pods' info and delete/modifications for recovery.
 
-- `install-cni` container
+- `codesealer-install-cni` container
     - copies `codesealer-cni` and `codesealer-iptables` to `/opt/cni/bin`
     - creates kubeconfig for the service account the pod runs under
     - periodically copy the K8S JWT token for codesealer-cni on the host to connect to K8S.
@@ -100,7 +100,7 @@ Codesealer CNI injection is currently based on the same Pod annotations used in 
     - CNI plugin executable copied to `/opt/cni/bin`
     - currently implemented for k8s only
     - on pod add, determines whether pod should have netns setup to redirect to Codesealer proxy. See [cmdAdd](#cmdadd-workflow) for detailed logic.
-        - it connects to K8S using the kubeconfig and JWT token copied from install-cni to get Pod and Namespace. Since this is a short-running command, each invocation creates a new connection.
+        - it connects to K8S using the kubeconfig and JWT token copied from codesealer-install-cni to get Pod and Namespace. Since this is a short-running command, each invocation creates a new connection.
         - If so, calls `codesealer-iptables` with params to setup pod netns
 
 - `codesealer-iptables`
@@ -134,10 +134,10 @@ The details for the deployment & installation of this plugin were pretty much li
 Specifically:
 
 - The CNI installation script is containerized and deployed as a daemonset in k8s.  The relevant calico k8s manifests were used as the model for the codesealer-cni plugin's manifest:
-    - [daemonset and configmap](https://docs.projectcalico.org/v3.2/getting-started/kubernetes/installation/hosted/calico.yaml) - search for the `calico-node` Daemonset and its `install-cni` container deployment
+    - [daemonset and configmap](https://docs.projectcalico.org/v3.2/getting-started/kubernetes/installation/hosted/calico.yaml) - search for the `calico-node` Daemonset and its `codesealer-install-cni` container deployment
     - [RBAC](https://docs.projectcalico.org/v3.2/getting-started/kubernetes/installation/rbac.yaml) - this creates the service account the CNI plugin is configured to use to access the kube-api-server
 
-The installation program `install-cni` injects the `codesealer-cni` plugin config at the end of the CNI plugin chain
+The installation program `codesealer-install-cni` injects the `codesealer-cni` plugin config at the end of the CNI plugin chain
 config.  It creates or modifies the file from the configmap created by the Kubernetes manifest.
 
 ## TODO

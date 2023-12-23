@@ -46,7 +46,7 @@ var (
 )
 
 var rootCmd = &cobra.Command{
-	Use:          "install-cni",
+	Use:          "codesealer-install-cni",
 	Short:        "Install and configure Codesealer CNI plugin on a node, detect and repair pod which is broken by race condition.",
 	SilenceUsage: true,
 	PreRunE: func(c *cobra.Command, args []string) error {
@@ -122,7 +122,7 @@ func init() {
 	rootCmd.AddCommand(version.CobraCommand())
 	rootCmd.AddCommand(collateral.CobraCommand(rootCmd, &doc.GenManHeader{
 		Title:   "Codesealer CNI Plugin Installer",
-		Section: "install-cni CLI",
+		Section: "codesealer-install-cni CLI",
 		Manual:  "Codesealer CNI Plugin Installer",
 	}))
 
@@ -138,7 +138,7 @@ func init() {
 	registerStringParameter(constants.KubeconfigFilename, "ZZZ-codesealer-cni-kubeconfig",
 		"Name of the kubeconfig file which CNI plugin will use when interacting with API server")
 	registerIntegerParameter(constants.KubeconfigMode, constants.DefaultKubeconfigMode, "File mode of the kubeconfig file")
-	registerStringParameter(constants.KubeCAFile, "", "CA file for kubeconfig. Defaults to the same as install-cni pod")
+	registerStringParameter(constants.KubeCAFile, "", "CA file for kubeconfig. Defaults to the same as codesealer-install-cni pod")
 	registerBooleanParameter(constants.SkipTLSVerify, false, "Whether to use insecure TLS in kubeconfig file")
 	registerIntegerParameter(constants.MonitoringPort, 15014, "HTTP port to serve prometheus metrics")
 	registerStringParameter(constants.LogUDSAddress, "/var/run/codesealer-cni/log.sock", "The UDS server address which CNI plugin will copy log output to")
