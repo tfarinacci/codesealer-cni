@@ -11,9 +11,22 @@ The CNI handling the netns setup replaces the current Codesealer approach using 
 `initContainers` container, `codesealer-init-networking`, injected in the pods along with `codesealer-proxy` sidecars.  This
 removes the need for a privileged, `NET_ADMIN` container in the Codesealer users' application pods.
 
+## Temporary Installation Guide
+
+To install the Codesealer CNI Plugin:
+
+1. From the charts directory use the provided helm chart to install the plugin using the following command:
+```console
+$ helm install codesealer-cni codesealer-cni --namespace=kube-system
+```
+2. To uninstall the plugin use the following command:
+```console
+$ helm uninstall codesealer-cni codesealer-cni --namespace=kube-system
+```
+
 ## Usage
 
-A complete set of instructions on how to use and install the Codesealer CNI is available on the Codesealer documentation site under [Install Codesealer with the Codesealer CNI plugin](https://codesealer.com/latest/docs/setup/cni/).
+A complete set of instructions on how to use and install the Codesealer CNI is available on the Codesealer documentation site under [Install Codesealer with the Codesealer CNI plugin](https://istio.io/latest/docs/setup/additional-setup/cni/).
 
 ## Troubleshooting
 
@@ -69,7 +82,7 @@ Codesealer CNI injection is currently based on the same Pod annotations used in 
 
 - plugin config "exclude namespaces" applies first
 - sidecar interception is enabled if:
-    - "init-networking" container is not present in the pod.
+    - "codesealer-init-networking" container is not present in the pod.
     - codesealer-core container exists and
         - has a namespace label "codesealer.com/webhook" which is enabled
         - has a pod annotation "codesealer.com/injection" which is enabled
