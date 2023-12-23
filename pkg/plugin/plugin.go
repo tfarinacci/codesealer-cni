@@ -29,7 +29,6 @@ import (
 	cniv1 "github.com/containernetworking/cni/pkg/types/100"
 	"github.com/containernetworking/cni/pkg/version"
 
-	"github.com/tfarinacci/codsealer-cni/pkg/ambient"
 	"github.com/tfarinacci/codsealer-cni/pkg/constants"
 	"istio.io/api/annotation"
 	"istio.io/api/label"
@@ -79,10 +78,9 @@ type Config struct {
 	PrevResult    *cniv1.Result   `json:"-"`
 
 	// Add plugin-specific flags here
-	LogLevel       string     `json:"log_level"`
-	LogUDSAddress  string     `json:"log_uds_address"`
-	AmbientEnabled bool       `json:"ambient_enabled"`
-	Kubernetes     Kubernetes `json:"kubernetes"`
+	LogLevel      string     `json:"log_level"`
+	LogUDSAddress string     `json:"log_uds_address"`
+	Kubernetes    Kubernetes `json:"kubernetes"`
 }
 
 // K8sArgs is the valid CNI_ARGS used for Kubernetes
@@ -220,33 +218,6 @@ func doRun(args *skel.CmdArgs, conf *Config) error {
 	client, err := newKubeClient(*conf)
 	if err != nil {
 		return err
-	}
-
-	if conf.AmbientEnabled {
-		ambientConf, err := ambient.ReadAmbientConfig()
-		if err != nil {
-			log.Errorf("istio-cni cmdAdd failed to read ambient config %v", err)
-			return err
-		}
-
-		log.Debugf("ambientConf.ZTunnelReady: %v", ambientConf.ZTunnelReady)
-		added := false
-		podIPs, err := getPodIPs(args.IfName, conf.PrevResult)
-		if err != nil {
-			log.Errorf("istio-cni cmdAdd failed to get pod IPs: %s", err)
-			return err
-		}
-		log.Infof("istio-cni ambient cmdAdd podName: %s podIPs: %+v", podName, podIPs)
-		added, err = checkAmbient(client, *ambientConf, podName, podNamespace, args.IfName, args.Netns, podIPs)
-		if err != nil {
-			log.Errorf("istio-cni cmdAdd failed to check ambient: %s", err)
-			return err
-		}
-
-		if added {
-			return nil
-		}
-		// Otherwise, continue. We may need to add sidecar redirection
 	}
 
 	pi := &PodInfo{}

@@ -46,9 +46,10 @@ import (
 	"github.com/florianl/go-tc/core"
 	"github.com/hashicorp/go-multierror"
 	"github.com/josharian/native"
+	"github.com/tfarinacci/codsealer-cni/pkg/ambient/constants"
 	"golang.org/x/sys/unix"
 
-	"github.com/tfarinacci/codsealer-cni/pkg/ambient/constants"
+	// "github.com/tfarinacci/codsealer-cni/pkg/ambient/constants"
 	istiolog "istio.io/istio/pkg/log"
 	"istio.io/istio/pkg/util/istiomultierror"
 	"istio.io/istio/pkg/util/sets"

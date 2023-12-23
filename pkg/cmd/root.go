@@ -25,7 +25,7 @@ import (
 	"github.com/spf13/cobra/doc"
 	"github.com/spf13/viper"
 
-	"github.com/tfarinacci/codsealer-cni/pkg/ambient"
+	// "github.com/tfarinacci/codsealer-cni/pkg/ambient"
 	"github.com/tfarinacci/codsealer-cni/pkg/config"
 	"github.com/tfarinacci/codsealer-cni/pkg/constants"
 	"github.com/tfarinacci/codsealer-cni/pkg/install"
@@ -78,25 +78,6 @@ var rootCmd = &cobra.Command{
 		if err = udsLogger.StartUDSLogServer(cfg.InstallConfig.LogUDSAddress, ctx.Done()); err != nil {
 			log.Errorf("Failed to start up UDS Log Server: %v", err)
 			return
-		}
-
-		if cfg.InstallConfig.AmbientEnabled {
-			// Start ambient controller
-			redirectMode := ambient.IptablesMode
-			if cfg.InstallConfig.EbpfEnabled {
-				redirectMode = ambient.EbpfMode
-			}
-			server, err := ambient.NewServer(ctx, ambient.AmbientArgs{
-				SystemNamespace: ambient.PodNamespace,
-				Revision:        ambient.Revision,
-				RedirectMode:    redirectMode,
-				LogLevel:        cfg.InstallConfig.LogLevel,
-			})
-			if err != nil {
-				return fmt.Errorf("failed to create ambient informer service: %v", err)
-			}
-			server.Start()
-			defer server.Stop()
 		}
 
 		isReady := install.StartServer()
