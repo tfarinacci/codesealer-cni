@@ -1,14 +1,14 @@
 # Codesealer CNI plugin
 
-For application pods in the Codesealer service mesh, all traffic to/from the pods needs to go through the
-sidecar proxies (codesealer-proxy containers).  This `codesealer-cni` Container Network Interface (CNI) plugin will
+For Ingress Controllers or application pods on a Kubernetes Cluster this CNI will pre-route all traffic to/from the pods to go through the
+Codesealer reverse proxies (codesealer-proxy containers).  This `codesealer-cni` Container Network Interface (CNI) plugin will
 set up the pods' networking to fulfill this requirement in place of the current Codesealer injected pod `initContainers`
-`codesealer-init` approach.
+`codesealer-init-networking` approach.
 
 This is currently accomplished via configuring the iptables rules in the netns for the pods.
 
 The CNI handling the netns setup replaces the current Codesealer approach using a `NET_ADMIN` privileged
-`initContainers` container, `codesealer-init`, injected in the pods along with `codesealer-proxy` sidecars.  This
+`initContainers` container, `codesealer-init-networking`, injected in the pods along with `codesealer-proxy` sidecars.  This
 removes the need for a privileged, `NET_ADMIN` container in the Codesealer users' application pods.
 
 ## Usage
