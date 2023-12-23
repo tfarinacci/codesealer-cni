@@ -154,7 +154,7 @@ func init() {
 	registerStringParameter(constants.RepairLabelValue, "true",
 		"The value portion of the label which will be set by the race repair if label pods is true")
 	registerStringParameter(constants.RepairNodeName, "", "The name of the managed node (will manage all nodes if unset)")
-	registerStringParameter(constants.RepairSidecarAnnotation, "sidecar.istio.io/status",
+	registerStringParameter(constants.RepairSidecarAnnotation, "codesealer.com/status",
 		"An annotation key that indicates this pod contains an istio sidecar. All pods without this annotation will be ignored."+
 			"The value of the annotation is ignored.")
 	registerStringParameter(constants.RepairInitContainerName, "istio-validation",

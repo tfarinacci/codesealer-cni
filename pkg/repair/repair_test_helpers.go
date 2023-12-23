@@ -145,7 +145,7 @@ var (
 	brokenPodTerminating = makePod(makePodArgs{
 		PodName: "broken-pod-terminating",
 		Annotations: map[string]string{
-			"sidecar.istio.io/status": "something",
+			"codesealer.com/status": "something",
 		},
 		Labels: map[string]string{
 			"testlabel": "true",
@@ -157,7 +157,7 @@ var (
 	brokenPodWaiting = makePod(makePodArgs{
 		PodName: "broken-pod-waiting",
 		Annotations: map[string]string{
-			"sidecar.istio.io/status": "something",
+			"codesealer.com/status": "something",
 		},
 		NodeName:            "test-node",
 		InitContainerStatus: &brokenInitContainerWaiting,
@@ -171,7 +171,7 @@ var (
 	workingPod = makePod(makePodArgs{
 		PodName: "working-pod",
 		Annotations: map[string]string{
-			"sidecar.istio.io/status": "something",
+			"codesealer.com/status": "something",
 		},
 		InitContainerStatus: &workingInitContainer,
 	})
@@ -179,7 +179,7 @@ var (
 	workingPodDiedPreviously = makePod(makePodArgs{
 		PodName: "working-pod-died-previously",
 		Annotations: map[string]string{
-			"sidecar.istio.io/status": "something",
+			"codesealer.com/status": "something",
 		},
 		InitContainerStatus: &workingInitContainerDiedPreviously,
 	})

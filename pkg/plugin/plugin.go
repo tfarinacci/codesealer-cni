@@ -241,9 +241,9 @@ func doRun(args *skel.CmdArgs, conf *Config) error {
 		return nil
 	}
 
-	if val, ok := pi.ProxyEnvironments["DISABLE_ENVOY"]; ok {
+	if val, ok := pi.ProxyEnvironments["DISABLE_CODESEALER"]; ok {
 		if val, err := strconv.ParseBool(val); err == nil && val {
-			log.Infof("excluded due to DISABLE_ENVOY on istio-proxy", podNamespace, podName)
+			log.Infof("excluded due to DISABLE_CODESEALER on istio-proxy", podNamespace, podName)
 			return nil
 		}
 	}

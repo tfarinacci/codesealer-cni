@@ -38,7 +38,7 @@ func TestMatchesFilter(t *testing.T) {
 	makeDetectPod := func(name string, terminationMessage string, exitCode int) *corev1.Pod {
 		return makePod(makePodArgs{
 			PodName:     name,
-			Annotations: map[string]string{"sidecar.istio.io/status": "something"},
+			Annotations: map[string]string{"codesealer.com/status": "something"},
 			InitContainerStatus: &corev1.ContainerStatus{
 				Name: constants.ValidationContainerName,
 				State: corev1.ContainerState{
@@ -66,7 +66,7 @@ func TestMatchesFilter(t *testing.T) {
 		{
 			"Testing OK pod with only ExitCode check",
 			config.RepairConfig{
-				SidecarAnnotation: "sidecar.istio.io/status",
+				SidecarAnnotation: "codesealer.com/status",
 				InitContainerName: constants.ValidationContainerName,
 				InitExitCode:      126,
 			},
@@ -76,7 +76,7 @@ func TestMatchesFilter(t *testing.T) {
 		{
 			"Testing working pod (that previously died) with only ExitCode check",
 			config.RepairConfig{
-				SidecarAnnotation: "sidecar.istio.io/status",
+				SidecarAnnotation: "codesealer.com/status",
 				InitContainerName: constants.ValidationContainerName,
 				InitExitCode:      126,
 			},
@@ -86,7 +86,7 @@ func TestMatchesFilter(t *testing.T) {
 		{
 			"Testing broken pod (in waiting state) with only ExitCode check",
 			config.RepairConfig{
-				SidecarAnnotation: "sidecar.istio.io/status",
+				SidecarAnnotation: "codesealer.com/status",
 				InitContainerName: constants.ValidationContainerName,
 				InitExitCode:      126,
 			},
@@ -96,7 +96,7 @@ func TestMatchesFilter(t *testing.T) {
 		{
 			"Testing broken pod (in terminating state) with only ExitCode check",
 			config.RepairConfig{
-				SidecarAnnotation: "sidecar.istio.io/status",
+				SidecarAnnotation: "codesealer.com/status",
 				InitContainerName: constants.ValidationContainerName,
 				InitExitCode:      126,
 			},
@@ -106,7 +106,7 @@ func TestMatchesFilter(t *testing.T) {
 		{
 			"Testing broken pod with wrong ExitCode",
 			config.RepairConfig{
-				SidecarAnnotation: "sidecar.istio.io/status",
+				SidecarAnnotation: "codesealer.com/status",
 				InitContainerName: constants.ValidationContainerName,
 				InitExitCode:      55,
 			},
@@ -116,7 +116,7 @@ func TestMatchesFilter(t *testing.T) {
 		{
 			"Testing broken pod with no annotation (should be ignored)",
 			config.RepairConfig{
-				SidecarAnnotation: "sidecar.istio.io/status",
+				SidecarAnnotation: "codesealer.com/status",
 				InitContainerName: constants.ValidationContainerName,
 				InitExitCode:      126,
 			},
@@ -126,7 +126,7 @@ func TestMatchesFilter(t *testing.T) {
 		{
 			"Check termination message match false",
 			config.RepairConfig{
-				SidecarAnnotation:  "sidecar.istio.io/status",
+				SidecarAnnotation:  "codesealer.com/status",
 				InitContainerName:  constants.ValidationContainerName,
 				InitTerminationMsg: "Termination Message",
 			},
@@ -139,7 +139,7 @@ func TestMatchesFilter(t *testing.T) {
 		{
 			"Check termination message match true",
 			config.RepairConfig{
-				SidecarAnnotation:  "sidecar.istio.io/status",
+				SidecarAnnotation:  "codesealer.com/status",
 				InitContainerName:  constants.ValidationContainerName,
 				InitTerminationMsg: "Termination Message",
 			},
@@ -152,7 +152,7 @@ func TestMatchesFilter(t *testing.T) {
 		{
 			"Check termination message match true for trailing and leading space",
 			config.RepairConfig{
-				SidecarAnnotation:  "sidecar.istio.io/status",
+				SidecarAnnotation:  "codesealer.com/status",
 				InitContainerName:  constants.ValidationContainerName,
 				InitTerminationMsg: "            Termination Message",
 			},
@@ -165,7 +165,7 @@ func TestMatchesFilter(t *testing.T) {
 		{
 			"Check termination code match false",
 			config.RepairConfig{
-				SidecarAnnotation: "sidecar.istio.io/status",
+				SidecarAnnotation: "codesealer.com/status",
 				InitContainerName: constants.ValidationContainerName,
 				InitExitCode:      126,
 			},
@@ -178,7 +178,7 @@ func TestMatchesFilter(t *testing.T) {
 		{
 			"Check termination code match true",
 			config.RepairConfig{
-				SidecarAnnotation: "sidecar.istio.io/status",
+				SidecarAnnotation: "codesealer.com/status",
 				InitContainerName: constants.ValidationContainerName,
 				InitExitCode:      126,
 			},
@@ -191,13 +191,13 @@ func TestMatchesFilter(t *testing.T) {
 		{
 			"Check badly formatted pod",
 			config.RepairConfig{
-				SidecarAnnotation: "sidecar.istio.io/status",
+				SidecarAnnotation: "codesealer.com/status",
 				InitContainerName: constants.ValidationContainerName,
 				InitExitCode:      126,
 			},
 			makePod(makePodArgs{
 				PodName:             "Test",
-				Annotations:         map[string]string{"sidecar.istio.io/status": "something"},
+				Annotations:         map[string]string{"codesealer.com/status": "something"},
 				InitContainerStatus: &corev1.ContainerStatus{},
 			}),
 			false,

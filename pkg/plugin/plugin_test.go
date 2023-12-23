@@ -381,7 +381,7 @@ func TestCmdAddExcludePodWithEnvoyDisableEnv(t *testing.T) {
 	k8Args = "K8S_POD_NAMESPACE=testNS;K8S_POD_NAME=testPodName"
 	testContainers = sets.New("mockContainer", "istio-proxy", "foo-init")
 	testAnnotations[sidecarStatusKey] = "true"
-	testProxyEnv["DISABLE_ENVOY"] = "true"
+	testProxyEnv["DISABLE_CODESEALER"] = "true"
 	getKubePodInfoCalled = true
 
 	testCmdAdd(t)
