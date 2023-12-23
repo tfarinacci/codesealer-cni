@@ -25,7 +25,6 @@ import (
 	"github.com/spf13/cobra/doc"
 	"github.com/spf13/viper"
 
-	// "github.com/tfarinacci/codsealer-cni/pkg/ambient"
 	"github.com/tfarinacci/codsealer-cni/pkg/config"
 	"github.com/tfarinacci/codsealer-cni/pkg/constants"
 	"github.com/tfarinacci/codsealer-cni/pkg/install"
@@ -143,8 +142,6 @@ func init() {
 	registerBooleanParameter(constants.SkipTLSVerify, false, "Whether to use insecure TLS in kubeconfig file")
 	registerIntegerParameter(constants.MonitoringPort, 15014, "HTTP port to serve prometheus metrics")
 	registerStringParameter(constants.LogUDSAddress, "/var/run/istio-cni/log.sock", "The UDS server address which CNI plugin will copy log output to")
-	registerBooleanParameter(constants.AmbientEnabled, false, "Whether ambient controller is enabled")
-	registerBooleanParameter(constants.EbpfEnabled, false, "Whether ebpf redirection is enabled")
 	// Repair
 	registerBooleanParameter(constants.RepairEnabled, true, "Whether to enable race condition repair or not")
 	registerBooleanParameter(constants.RepairDeletePods, false, "Controller will delete pods when detecting pod broken by race condition")
@@ -223,9 +220,6 @@ func constructConfig() (*config.Config, error) {
 		CNIBinTargetDirs: []string{constants.HostCNIBinDir},
 		MonitoringPort:   viper.GetInt(constants.MonitoringPort),
 		LogUDSAddress:    viper.GetString(constants.LogUDSAddress),
-
-		AmbientEnabled: viper.GetBool(constants.AmbientEnabled),
-		EbpfEnabled:    viper.GetBool(constants.EbpfEnabled),
 	}
 
 	if len(installCfg.K8sNodeName) == 0 {

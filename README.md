@@ -64,7 +64,6 @@ $ gcloud logging read "resource.type=k8s_node AND jsonPayload.SYSLOG_IDENTIFIER=
 
 Codesealer CNI injection is currently based on the same Pod annotations used in init-container/inject mode.
 
-TODO: list all supported annotations, which are working on ambient, plans for long-term support as CRD/broader than Codesealer.
 
 ### Selection API
 
@@ -96,7 +95,6 @@ TODO: list all supported annotations, which are working on ambient, plans for lo
     - the actual code is in pkg/install - including a readiness probe, monitoring.
     - it also sets up a UDS socket for codesealer-cni to send logs to this container.
     - based on config, it may run the 'repair' controller that detects pods where istio setup fails and restarts them, or created in corner cases.
-    - if ambient is enabled, also runs an ambient controller, watching Pod, Namespace
 
 - `codesealer-cni`
     - CNI plugin executable copied to `/opt/cni/bin`
@@ -104,7 +102,6 @@ TODO: list all supported annotations, which are working on ambient, plans for lo
     - on pod add, determines whether pod should have netns setup to redirect to Codesealer proxy. See [cmdAdd](#cmdadd-workflow) for detailed logic.
         - it connects to K8S using the kubeconfig and JWT token copied from install-cni to get Pod and Namespace. Since this is a short-running command, each invocation creates a new connection.
         - If so, calls `istio-iptables` with params to setup pod netns
-        - If ambient, sets up the ambient logic.
 
 - `codesealer-iptables`
     - sets up iptables to redirect a list of ports to the port envoy will listen
@@ -117,7 +114,7 @@ TODO: list all supported annotations, which are working on ambient, plans for lo
 run after the main CNI sets up the pod IP and networking.
 
 1. Check k8s pod namespace against exclusion list (plugin config)
-    - Config must exclude namespace that Codesealer control-plane is installed in (TODO: this may change, exclude at pod level is sufficient and we may want Istiod and other istio components to use ambient too)
+    - Config must exclude namespace that Codesealer control-plane is installed in (TODO: this may change, exclude at pod level is sufficient and we may want 
     - If excluded, ignore the pod and return prevResult
 1. Setup redirect rules for the pods:
     - Get the port list from pods definition, as well as annotations.

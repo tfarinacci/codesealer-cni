@@ -6,14 +6,10 @@ go 1.21
 replace github.com/imdario/mergo => github.com/imdario/mergo v0.3.5
 
 require (
-	github.com/cilium/ebpf v0.12.3
 	github.com/containernetworking/cni v1.1.2
 	github.com/containernetworking/plugins v1.4.0
-	github.com/florianl/go-tc v0.4.2
 	github.com/fsnotify/fsnotify v1.7.0
 	github.com/google/go-cmp v0.6.0
-	github.com/hashicorp/go-multierror v1.1.1
-	github.com/josharian/native v1.1.0
 	github.com/prometheus/procfs v0.12.0
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/viper v1.18.1
@@ -83,12 +79,14 @@ require (
 	github.com/gregjones/httpcache v0.0.0-20190611155906-901d90724c79 // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
+	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/huandu/xstrings v1.4.0 // indirect
 	github.com/imdario/mergo v1.0.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
+	github.com/josharian/native v1.1.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.17.4 // indirect
 	github.com/lestrrat-go/backoff/v2 v2.0.8 // indirect
