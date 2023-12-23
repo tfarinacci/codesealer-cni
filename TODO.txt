@@ -1,0 +1,3 @@
+1.  The CNI should check that pod has a namespace label "codesealer.com/webhook" which is enabled before proceeding
+2.  The CNI should check if the pod has a pod annotation "codesealer.com/dport" which specifies the port to pre-route
+3.  Validate if the CNI is checking for the codesealer-init-networking init-container before processing
