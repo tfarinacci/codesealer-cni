@@ -1,6 +1,6 @@
 build-codesealer-cni:
-	docker build --no-cache -t tfarinacci/codesealer-cni:latest -f Dockerfile .
-	# docker buildx build --push --no-cache -t tfarinacci/codesealer-cni:latest --platform linux/amd64,linux/arm64 -f Dockerfile .
+	docker build --no-cache -t tfarinacci/codesealer-cni:latest -f deployments/kubernetes/Dockerfile .
+	# docker buildx build --push --no-cache -t tfarinacci/codesealer-cni:latest --platform linux/amd64,linux/arm64 -f deployments/kubernetes/Dockerfile .
 
 push-codesealer-cni:
 	docker -- push tfarinacci/codesealer-cni:latest
