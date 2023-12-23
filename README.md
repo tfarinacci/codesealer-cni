@@ -17,11 +17,11 @@ To install the Codesealer CNI Plugin:
 
 1. From the charts directory use the provided helm chart to install the plugin using the following command:
 ```console
-$ helm install codesealer-cni codesealer-cni --namespace=kube-system
+helm install codesealer-cni codesealer-cni --namespace=kube-system
 ```
 2. To uninstall the plugin use the following command:
 ```console
-$ helm uninstall codesealer-cni codesealer-cni --namespace=kube-system
+helm uninstall codesealer-cni codesealer-cni --namespace=kube-system
 ```
 
 ## Usage
