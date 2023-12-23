@@ -103,7 +103,7 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 				Annotations:       map[string]string{annotation.SidecarStatus.Name: "true"},
 				ProxyEnvironments: map[string]string{},
 			},
-			golden: filepath.Join(env.CodesealerSrc, "cni/pkg/plugin/testdata/basic.txt.golden"),
+			golden: filepath.Join(env.IstioSrc, "cni/pkg/plugin/testdata/basic.txt.golden"),
 		},
 		{
 			name: "include-exclude-ip",
@@ -116,7 +116,7 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 				},
 				ProxyEnvironments: map[string]string{},
 			},
-			golden: filepath.Join(env.CodesealerSrc, "cni/pkg/plugin/testdata/include-exclude-ip.txt.golden"),
+			golden: filepath.Join(env.IstioSrc, "cni/pkg/plugin/testdata/include-exclude-ip.txt.golden"),
 		},
 		{
 			name: "include-exclude-ports",
@@ -130,7 +130,7 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 				},
 				ProxyEnvironments: map[string]string{},
 			},
-			golden: filepath.Join(env.CodesealerSrc, "cni/pkg/plugin/testdata/include-exclude-ports.txt.golden"),
+			golden: filepath.Join(env.IstioSrc, "cni/pkg/plugin/testdata/include-exclude-ports.txt.golden"),
 		},
 		{
 			name: "tproxy",
@@ -142,7 +142,7 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 				},
 				ProxyEnvironments: map[string]string{},
 			},
-			golden: filepath.Join(env.CodesealerSrc, "cni/pkg/plugin/testdata/tproxy.txt.golden"),
+			golden: filepath.Join(env.IstioSrc, "cni/pkg/plugin/testdata/tproxy.txt.golden"),
 		},
 		{
 			name: "DNS",
@@ -151,7 +151,7 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 				Annotations:       map[string]string{annotation.SidecarStatus.Name: "true"},
 				ProxyEnvironments: map[string]string{options.DNSCaptureByAgent.Name: "true"},
 			},
-			golden: filepath.Join(env.CodesealerSrc, "cni/pkg/plugin/testdata/dns.txt.golden"),
+			golden: filepath.Join(env.IstioSrc, "cni/pkg/plugin/testdata/dns.txt.golden"),
 		},
 		{
 			name: "invalid-drop",
@@ -160,7 +160,7 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 				Annotations:       map[string]string{annotation.SidecarStatus.Name: "true"},
 				ProxyEnvironments: map[string]string{cmd.InvalidDropByIptables: "true"},
 			},
-			golden: filepath.Join(env.CodesealerSrc, "cni/pkg/plugin/testdata/invalid-drop.txt.golden"),
+			golden: filepath.Join(env.IstioSrc, "cni/pkg/plugin/testdata/invalid-drop.txt.golden"),
 		},
 		{
 			name: "custom-uid",
@@ -170,7 +170,7 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 				ProxyUID:    &customUID,
 				ProxyGID:    &customGID,
 			},
-			golden: filepath.Join(env.CodesealerSrc, "cni/pkg/plugin/testdata/custom-uid.txt.golden"),
+			golden: filepath.Join(env.IstioSrc, "cni/pkg/plugin/testdata/custom-uid.txt.golden"),
 		},
 		{
 			name: "custom-uid-zero",
@@ -179,7 +179,7 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 				Annotations: map[string]string{annotation.SidecarStatus.Name: "true"},
 				ProxyUID:    &zero,
 			},
-			golden: filepath.Join(env.CodesealerSrc, "cni/pkg/plugin/testdata/basic.txt.golden"),
+			golden: filepath.Join(env.IstioSrc, "cni/pkg/plugin/testdata/basic.txt.golden"),
 		},
 		{
 			name: "custom-uid-tproxy",
@@ -192,7 +192,7 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 				ProxyUID: &customUID,
 				ProxyGID: &customGID,
 			},
-			golden: filepath.Join(env.CodesealerSrc, "cni/pkg/plugin/testdata/custom-uid-tproxy.txt.golden"),
+			golden: filepath.Join(env.IstioSrc, "cni/pkg/plugin/testdata/custom-uid-tproxy.txt.golden"),
 		},
 	}
 

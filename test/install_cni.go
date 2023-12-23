@@ -175,7 +175,7 @@ func runInstall(ctx context.Context, tempCNIConfDir, tempCNIBinDir,
 	root := cmd.GetCommand()
 	constants.ServiceAccountPath = tempK8sSvcAcctDir
 	constants.HostCNIBinDir = tempCNIBinDir
-	constants.CNIBinDir = filepath.Join(env.CodesealerSrc, "cni/test/testdata/bindir")
+	constants.CNIBinDir = filepath.Join(env.IstioSrc, "cni/test/testdata/bindir")
 	root.SetArgs([]string{
 		"--mounted-cni-net-dir", tempCNIConfDir,
 		"--ctrlz_port", "0",
@@ -349,7 +349,7 @@ func doTest(t *testing.T, chainedCNIPlugin bool, wd, preConfFile, resultFileName
 func RunInstallCNITest(t *testing.T, chainedCNIPlugin bool, preConfFile, resultFileName, delayedConfFile, expectedOutputFile,
 	expectedPostCleanFile string, cniConfDirOrderedFiles []string,
 ) {
-	wd := env.CodesealerSrc + "/cni/test"
+	wd := env.IstioSrc + "/cni/test"
 	testWorkRootDir := getEnv("TEST_WORK_ROOTDIR", "/tmp")
 
 	tempCNIConfDir := mktemp(testWorkRootDir, "cni-conf-", t)
