@@ -237,24 +237,24 @@ func doRun(args *skel.CmdArgs, conf *Config) error {
 
 	// Check if codesealer-init container is present; in that case exclude pod
 	if pi.Containers.Contains(CODESEALERINIT) {
-		log.Infof("excluded due to being already injected with codesealer-init container")
+		log.Infof("Excluded due to being already injected with codesealer-init container")
 		return nil
 	}
 
 	if val, ok := pi.ProxyEnvironments["DISABLE_CODESEALER"]; ok {
 		if val, err := strconv.ParseBool(val); err == nil && val {
-			log.Infof("excluded due to DISABLE_CODESEALER on codesealer-core", podNamespace, podName)
+			log.Infof("Excluded due to DISABLE_CODESEALER on codesealer-core", podNamespace, podName)
 			return nil
 		}
 	}
 
 	if !pi.Containers.Contains(CODESEALERPROXY) {
-		log.Infof("excluded because it does not have codesealer-core container (have %v)", sets.SortedList(pi.Containers))
+		log.Infof("Excluded because it does not have codesealer-core container (have %v)", sets.SortedList(pi.Containers))
 		return nil
 	}
 
 	if pi.ProxyType != "" && pi.ProxyType != "sidecar" {
-		log.Infof("excluded %s/%s pod because it has proxy type %s", podNamespace, podName, pi.ProxyType)
+		log.Infof("Excluded %s/%s pod because it has proxy type %s", podNamespace, podName, pi.ProxyType)
 		return nil
 	}
 
@@ -264,7 +264,7 @@ func doRun(args *skel.CmdArgs, conf *Config) error {
 		val = lbl
 	}
 	if val != "" {
-		log.Debugf("contains inject annotation: %s", val)
+		log.Debugf("Contains inject annotation: %s", val)
 		if injectEnabled, err := strconv.ParseBool(val); err == nil {
 			if !injectEnabled {
 				log.Infof("excluded due to inject-disabled annotation")
@@ -274,7 +274,7 @@ func doRun(args *skel.CmdArgs, conf *Config) error {
 	}
 
 	if _, ok := pi.Annotations[sidecarStatusKey]; !ok {
-		log.Infof("excluded due to not containing sidecar annotation")
+		log.Infof("Excluded due to not containing sidecar annotation")
 		return nil
 	}
 
@@ -282,7 +282,7 @@ func doRun(args *skel.CmdArgs, conf *Config) error {
 
 	redirect, err := NewRedirect(pi)
 	if err != nil {
-		log.Errorf("redirect failed due to bad params: %v", err)
+		log.Errorf("Redirect failed due to bad params: %v", err)
 		return err
 	}
 
@@ -290,7 +290,7 @@ func doRun(args *skel.CmdArgs, conf *Config) error {
 	interceptMgrCtor := GetInterceptRuleMgrCtor(interceptRuleMgrType)
 	if interceptMgrCtor == nil {
 		log.Errorf("Pod redirect failed due to unavailable InterceptRuleMgr of type %s", interceptRuleMgrType)
-		return fmt.Errorf("redirect failed to find InterceptRuleMgr")
+		return fmt.Errorf("Redirect failed to find InterceptRuleMgr")
 	}
 
 	rulesMgr := interceptMgrCtor()
