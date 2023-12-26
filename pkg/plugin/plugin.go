@@ -249,6 +249,7 @@ func doRun(args *skel.CmdArgs, conf *Config) error {
 	}
 
 	if !pi.Containers.Contains(CODESEALERPROXY) {
+		log.Infof("CODESEALER-PROXY value: %v", CODESEALERPROXY)
 		log.Infof("Excluded because it does not have codesealer-core container (have %v)", sets.SortedList(pi.Containers))
 		return nil
 	}
@@ -267,7 +268,7 @@ func doRun(args *skel.CmdArgs, conf *Config) error {
 		log.Debugf("Contains inject annotation: %s", val)
 		if injectEnabled, err := strconv.ParseBool(val); err == nil {
 			if !injectEnabled {
-				log.Infof("excluded due to inject-disabled annotation")
+				log.Infof("Excluded due to inject-disabled annotation")
 				return nil
 			}
 		}
