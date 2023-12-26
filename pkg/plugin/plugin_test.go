@@ -221,7 +221,7 @@ func TestCmdAdd(t *testing.T) {
 func TestCmdAddTwoContainersWithAnnotation(t *testing.T) {
 	defer resetGlobalTestVariables()
 
-	testContainers = sets.New("mockContainer", "codesealer-proxy")
+	testContainers = sets.New("mockContainer", "codesealer-core")
 	testAnnotations[injectAnnotationKey] = "false"
 
 	testCmdAdd(t)
@@ -230,7 +230,7 @@ func TestCmdAddTwoContainersWithAnnotation(t *testing.T) {
 func TestCmdAddTwoContainersWithLabel(t *testing.T) {
 	defer resetGlobalTestVariables()
 
-	testContainers = sets.New("mockContainer", "codesealer-proxy")
+	testContainers = sets.New("mockContainer", "codesealer-core")
 	testAnnotations[label.SidecarInject.Name] = "false"
 
 	testCmdAdd(t)
@@ -239,7 +239,7 @@ func TestCmdAddTwoContainersWithLabel(t *testing.T) {
 func TestCmdAddTwoContainers(t *testing.T) {
 	defer resetGlobalTestVariables()
 	testAnnotations[injectAnnotationKey] = "true"
-	testContainers = sets.New("mockContainer", "codesealer-proxy")
+	testContainers = sets.New("mockContainer", "codesealer-core")
 
 	testCmdAdd(t)
 
@@ -259,7 +259,7 @@ func TestCmdAddTwoContainers(t *testing.T) {
 func TestCmdAddTwoContainersWithStarInboundPort(t *testing.T) {
 	defer resetGlobalTestVariables()
 	testAnnotations[includeInboundPortsKey] = "*"
-	testContainers = sets.New("mockContainer", "codesealer-proxy")
+	testContainers = sets.New("mockContainer", "codesealer-core")
 	testCmdAdd(t)
 
 	if !nsenterFuncCalled {
@@ -278,7 +278,7 @@ func TestCmdAddTwoContainersWithStarInboundPort(t *testing.T) {
 func TestCmdAddTwoContainersWithEmptyInboundPort(t *testing.T) {
 	defer resetGlobalTestVariables()
 	delete(testAnnotations, includeInboundPortsKey)
-	testContainers = sets.New("mockContainer", "codesealer-proxy")
+	testContainers = sets.New("mockContainer", "codesealer-core")
 	testAnnotations[includeInboundPortsKey] = ""
 	testCmdAdd(t)
 
@@ -298,7 +298,7 @@ func TestCmdAddTwoContainersWithEmptyInboundPort(t *testing.T) {
 func TestCmdAddTwoContainersWithEmptyExcludeInboundPort(t *testing.T) {
 	defer resetGlobalTestVariables()
 	delete(testAnnotations, includeInboundPortsKey)
-	testContainers = sets.New("mockContainer", "codesealer-proxy")
+	testContainers = sets.New("mockContainer", "codesealer-core")
 	testAnnotations[excludeInboundPortsKey] = ""
 	testCmdAdd(t)
 
@@ -318,7 +318,7 @@ func TestCmdAddTwoContainersWithEmptyExcludeInboundPort(t *testing.T) {
 func TestCmdAddTwoContainersWithExplictExcludeInboundPort(t *testing.T) {
 	defer resetGlobalTestVariables()
 	delete(testAnnotations, includeInboundPortsKey)
-	testContainers = sets.New("mockContainer", "codesealer-proxy")
+	testContainers = sets.New("mockContainer", "codesealer-core")
 	testAnnotations[excludeInboundPortsKey] = "3306"
 	testCmdAdd(t)
 
@@ -339,7 +339,7 @@ func TestCmdAddTwoContainersWithoutSideCar(t *testing.T) {
 	defer resetGlobalTestVariables()
 
 	delete(testAnnotations, sidecarStatusKey)
-	testContainers = sets.New("mockContainer", "codesealer-proxy")
+	testContainers = sets.New("mockContainer", "codesealer-core")
 	testCmdAdd(t)
 
 	if nsenterFuncCalled {
@@ -379,7 +379,7 @@ func TestCmdAddExcludePodWithEnvoyDisableEnv(t *testing.T) {
 	defer resetGlobalTestVariables()
 
 	k8Args = "K8S_POD_NAMESPACE=testNS;K8S_POD_NAME=testPodName"
-	testContainers = sets.New("mockContainer", "codesealer-proxy", "foo-init")
+	testContainers = sets.New("mockContainer", "codesealer-core", "foo-init")
 	testAnnotations[sidecarStatusKey] = "true"
 	testProxyEnv["DISABLE_CODESEALER"] = "true"
 	getKubePodInfoCalled = true
@@ -476,7 +476,7 @@ func TestCmdAddNoPrevResult(t *testing.T) {
 func TestCmdAddEnableDualStack(t *testing.T) {
 	defer resetGlobalTestVariables()
 	testProxyEnv["CODESEALER_DUAL_STACK"] = "true"
-	testContainers = sets.New("mockContainer", "codesealer-proxy")
+	testContainers = sets.New("mockContainer", "codesealer-core")
 	testCmdAdd(t)
 
 	if !nsenterFuncCalled {

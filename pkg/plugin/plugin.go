@@ -45,8 +45,8 @@ var (
 )
 
 const (
-	CODESEALERINIT  = "codesealer-init"
-	CODESEALERPROXY = "codesealer-proxy"
+	CODESEALERINIT  = "codesealer-init-networking"
+	CODESEALERPROXY = "codesealer-core"
 )
 
 // Kubernetes a K8s specific struct to hold config
@@ -243,13 +243,13 @@ func doRun(args *skel.CmdArgs, conf *Config) error {
 
 	if val, ok := pi.ProxyEnvironments["DISABLE_CODESEALER"]; ok {
 		if val, err := strconv.ParseBool(val); err == nil && val {
-			log.Infof("excluded due to DISABLE_CODESEALER on codesealer-proxy", podNamespace, podName)
+			log.Infof("excluded due to DISABLE_CODESEALER on codesealer-core", podNamespace, podName)
 			return nil
 		}
 	}
 
 	if !pi.Containers.Contains(CODESEALERPROXY) {
-		log.Infof("excluded because it does not have codesealer-proxy container (have %v)", sets.SortedList(pi.Containers))
+		log.Infof("excluded because it does not have codesealer-core container (have %v)", sets.SortedList(pi.Containers))
 		return nil
 	}
 

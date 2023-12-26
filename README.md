@@ -1,14 +1,14 @@
 # Codesealer CNI plugin
 
 For Ingress Controllers or application pods on a Kubernetes Cluster this CNI will pre-route all traffic to/from the pods to go through the
-Codesealer reverse proxies (codesealer-proxy containers).  This `codesealer-cni` Container Network Interface (CNI) plugin will
+Codesealer reverse proxies (codesealer-core containers).  This `codesealer-cni` Container Network Interface (CNI) plugin will
 set up the pods' networking to fulfill this requirement in place of the current Codesealer injected pod `initContainers`
 `codesealer-init-networking` approach.
 
 This is currently accomplished via configuring the iptables rules in the netns for the pods.
 
 The CNI handling the netns setup replaces the current Codesealer approach using a `NET_ADMIN` privileged
-`initContainers` container, `codesealer-init-networking`, injected in the pods along with `codesealer-proxy` sidecars.  This
+`initContainers` container, `codesealer-init-networking`, injected in the pods along with `codesealer-core` sidecars.  This
 removes the need for a privileged, `NET_ADMIN` container in the Codesealer users' application pods.
 
 ## Temporary Installation Guide
@@ -37,7 +37,7 @@ A complete set of instructions on how to use and install the Codesealer CNI is a
     ```console
     $ ns=test-codesealer
     $ podnm=reviews-v1-6b7f6db5c5-59jhf
-    $ container_id=$(kubectl get pod -n ${ns} ${podnm} -o jsonpath="{.status.containerStatuses[?(@.name=='codesealer-proxy')].containerID}" | sed -n 's/docker:\/\/\(.*\)/\1/p')
+    $ container_id=$(kubectl get pod -n ${ns} ${podnm} -o jsonpath="{.status.containerStatuses[?(@.name=='codesealer-core')].containerID}" | sed -n 's/docker:\/\/\(.*\)/\1/p')
     ```
 
 1. SSH into the Kubernetes worker node that runs your pod.

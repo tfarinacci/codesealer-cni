@@ -99,7 +99,7 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 		{
 			name: "basic",
 			input: &PodInfo{
-				Containers:        sets.New("test", "codesealer-proxy", "codesealer-validate"),
+				Containers:        sets.New("test", "codesealer-core", "codesealer-validate"),
 				Annotations:       map[string]string{annotation.SidecarStatus.Name: "true"},
 				ProxyEnvironments: map[string]string{},
 			},
@@ -108,7 +108,7 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 		{
 			name: "include-exclude-ip",
 			input: &PodInfo{
-				Containers: sets.New("test", "codesealer-proxy", "codesealer-validate"),
+				Containers: sets.New("test", "codesealer-core", "codesealer-validate"),
 				Annotations: map[string]string{
 					annotation.SidecarStatus.Name:                         "true",
 					annotation.SidecarTrafficIncludeOutboundIPRanges.Name: "127.0.0.0/8",
@@ -121,7 +121,7 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 		{
 			name: "include-exclude-ports",
 			input: &PodInfo{
-				Containers: sets.New("test", "codesealer-proxy", "codesealer-validate"),
+				Containers: sets.New("test", "codesealer-core", "codesealer-validate"),
 				Annotations: map[string]string{
 					annotation.SidecarStatus.Name:                      "true",
 					annotation.SidecarTrafficIncludeInboundPorts.Name:  "1111,2222",
@@ -135,7 +135,7 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 		{
 			name: "tproxy",
 			input: &PodInfo{
-				Containers: sets.New("test", "codesealer-proxy", "codesealer-validate"),
+				Containers: sets.New("test", "codesealer-core", "codesealer-validate"),
 				Annotations: map[string]string{
 					annotation.SidecarStatus.Name:           "true",
 					annotation.SidecarInterceptionMode.Name: redirectModeTPROXY,
@@ -147,7 +147,7 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 		{
 			name: "DNS",
 			input: &PodInfo{
-				Containers:        sets.New("test", "codesealer-proxy", "codesealer-validate"),
+				Containers:        sets.New("test", "codesealer-core", "codesealer-validate"),
 				Annotations:       map[string]string{annotation.SidecarStatus.Name: "true"},
 				ProxyEnvironments: map[string]string{options.DNSCaptureByAgent.Name: "true"},
 			},
@@ -156,7 +156,7 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 		{
 			name: "invalid-drop",
 			input: &PodInfo{
-				Containers:        sets.New("test", "codesealer-proxy", "codesealer-validate"),
+				Containers:        sets.New("test", "codesealer-core", "codesealer-validate"),
 				Annotations:       map[string]string{annotation.SidecarStatus.Name: "true"},
 				ProxyEnvironments: map[string]string{cmd.InvalidDropByIptables: "true"},
 			},
@@ -165,7 +165,7 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 		{
 			name: "custom-uid",
 			input: &PodInfo{
-				Containers:  sets.New("test", "codesealer-proxy", "codesealer-validate"),
+				Containers:  sets.New("test", "codesealer-core", "codesealer-validate"),
 				Annotations: map[string]string{annotation.SidecarStatus.Name: "true"},
 				ProxyUID:    &customUID,
 				ProxyGID:    &customGID,
@@ -175,7 +175,7 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 		{
 			name: "custom-uid-zero",
 			input: &PodInfo{
-				Containers:  sets.New("test", "codesealer-proxy", "codesealer-validate"),
+				Containers:  sets.New("test", "codesealer-core", "codesealer-validate"),
 				Annotations: map[string]string{annotation.SidecarStatus.Name: "true"},
 				ProxyUID:    &zero,
 			},
@@ -184,7 +184,7 @@ func TestIPTablesRuleGeneration(t *testing.T) {
 		{
 			name: "custom-uid-tproxy",
 			input: &PodInfo{
-				Containers: sets.New("test", "codesealer-proxy", "codesealer-validate"),
+				Containers: sets.New("test", "codesealer-core", "codesealer-validate"),
 				Annotations: map[string]string{
 					annotation.SidecarStatus.Name:           "true",
 					annotation.SidecarInterceptionMode.Name: redirectModeTPROXY,

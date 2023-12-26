@@ -84,7 +84,7 @@ func ExtractPodInfo(pod *v1.Pod) *PodInfo {
 	for _, c := range containers(pod) {
 		pi.Containers.Insert(c.Name)
 		if c.Name == CODESEALERPROXY {
-			// don't include ports from codesealer-proxy in the redirect ports
+			// don't include ports from codesealer-core in the redirect ports
 			// Get proxy container env variable, and extract out ProxyConfig from it.
 			for _, e := range c.Env {
 				pi.ProxyEnvironments[e.Name] = e.Value
