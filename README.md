@@ -84,9 +84,10 @@ Codesealer CNI injection is currently based on the same Pod annotations used in 
 - sidecar interception is enabled if:
     - "codesealer-init-networking" container is not present in the pod.
     - codesealer-core container exists and
-        - has a namespace label "codesealer.com/webhook" which is enabled
+        - has a namespace label "codesealer.com/webhook" which is enabled (TODO: missing)
         - has a pod annotation "codesealer.com/injection" which is enabled
-        - has a pod annotation "codesealer.com/dport" which specifies the port to pre-route
+        - has a pod annotation "codesealer.com/status" exists (TODO: Do we need to keep this?)
+        - has a pod annotation "codesealer.com/dport" which specifies the port to pre-route (TODO: missing)
 
 ## Implementation Details
 

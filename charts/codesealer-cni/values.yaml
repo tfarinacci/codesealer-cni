@@ -4,12 +4,6 @@
 
 replicaCount: 1
 
-image:
-  repository: tfarinacci
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
-
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -48,7 +42,7 @@ cni:
   tag: "latest"
   variant: ""
   image: codesealer-install-cni
-  pullPolicy: "IfNotPresent"
+  pullPolicy: "Always"
   namespace: kube-system
 
   # Configuration log level of istio-cni binary
@@ -157,7 +151,7 @@ global:
 
   # Specify image pull policy if default behavior isn't desired.
   # Default behavior: latest images will be Always else IfNotPresent.
-  imagePullPolicy: ""
+  imagePullPolicy: "Always"
 
   # change cni scope level to control logging out of istio-cni-node DaemonSet
   logging:

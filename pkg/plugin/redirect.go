@@ -59,7 +59,7 @@ var (
 
 	annotationRegistry = map[string]*annotationParam{
 		"inject":               {injectAnnotationKey, "", alwaysValidFunc},
-		"status":               {sidecarStatusKey, "", alwaysValidFunc},
+		"dport":                {sidecarPortKey, "", alwaysValidFunc},
 		"redirectMode":         {sidecarInterceptModeKey, defaultRedirectMode, validateInterceptionMode},
 		"ports":                {sidecarPortListKey, "", validatePortList},
 		"includeIPCidrs":       {includeIPCidrsKey, defaultRedirectIPCidr, validateCIDRListWithWildcard},

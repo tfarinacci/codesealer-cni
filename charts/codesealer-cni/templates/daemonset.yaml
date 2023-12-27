@@ -127,7 +127,7 @@ spec:
             - name: REPAIR_RUN_AS_DAEMON
               value: "true"
             - name: REPAIR_SIDECAR_ANNOTATION
-              value: "sidecar.codesealer.com/status"
+              value: "codesealer.com/dport"
             - name: REPAIR_INIT_CONTAINER_NAME
               value: "{{ .Values.cni.repair.initContainerName }}"
             - name: REPAIR_BROKEN_POD_LABEL_KEY

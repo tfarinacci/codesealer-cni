@@ -36,17 +36,18 @@ import (
 	"istio.io/istio/pkg/util/sets"
 )
 
-var (
-	injectAnnotationKey = annotation.SidecarInject.Name
-	sidecarStatusKey    = annotation.SidecarStatus.Name
-
-	podRetrievalMaxRetries = 30
-	podRetrievalInterval   = 1 * time.Second
-)
-
 const (
 	CODESEALERINIT  = "codesealer-init-networking"
 	CODESEALERPROXY = "codesealer-core"
+	CODESEALERDPORT = "codesealer.com/dport"
+)
+
+var (
+	injectAnnotationKey = annotation.SidecarInject.Name
+	sidecarPortKey      = CODESEALERDPORT
+
+	podRetrievalMaxRetries = 30
+	podRetrievalInterval   = 1 * time.Second
 )
 
 // Kubernetes a K8s specific struct to hold config
@@ -210,7 +211,7 @@ func doRun(args *skel.CmdArgs, conf *Config) error {
 
 	for _, excludeNs := range conf.Kubernetes.ExcludeNamespaces {
 		if podNamespace == excludeNs {
-			log.Infof("pod namespace excluded")
+			log.Infof("pod %s namespace %s excluded", podName, podNamespace)
 			return nil
 		}
 	}
@@ -249,7 +250,7 @@ func doRun(args *skel.CmdArgs, conf *Config) error {
 	}
 
 	if !pi.Containers.Contains(CODESEALERPROXY) {
-		log.Infof("CODESEALER-PROXY value: %v", CODESEALERPROXY)
+		log.Infof("CODESEALER-PROXY value: %v", CODESEALERPROXY) // Added for testing
 		log.Infof("Excluded because it does not have codesealer-core container (have %v)", sets.SortedList(pi.Containers))
 		return nil
 	}
@@ -274,7 +275,8 @@ func doRun(args *skel.CmdArgs, conf *Config) error {
 		}
 	}
 
-	if _, ok := pi.Annotations[sidecarStatusKey]; !ok {
+	if _, ok := pi.Annotations[sidecarPortKey]; !ok {
+		log.Infof("sidecarPortKey value: %v", sidecarPortKey) // Added for testing
 		log.Infof("Excluded due to not containing sidecar annotation")
 		return nil
 	}

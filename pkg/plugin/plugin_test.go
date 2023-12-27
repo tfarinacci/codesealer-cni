@@ -100,7 +100,7 @@ type mockInterceptRuleMgr struct {
 }
 
 func init() {
-	testAnnotations[sidecarStatusKey] = "true"
+	testAnnotations[sidecarPortKey] = "443"
 }
 
 func (mrdir *mockInterceptRuleMgr) Program(podName, netns string, redirect *Redirect) error {
@@ -139,7 +139,7 @@ func resetGlobalTestVariables() {
 	testAnnotations = map[string]string{}
 	testProxyEnv = map[string]string{}
 
-	testAnnotations[sidecarStatusKey] = "true"
+	testAnnotations[sidecarPortKey] = "443"
 	k8Args = "K8S_POD_NAMESPACE=codesealer-system;K8S_POD_NAME=testPodName"
 }
 
@@ -338,7 +338,7 @@ func TestCmdAddTwoContainersWithExplictExcludeInboundPort(t *testing.T) {
 func TestCmdAddTwoContainersWithoutSideCar(t *testing.T) {
 	defer resetGlobalTestVariables()
 
-	delete(testAnnotations, sidecarStatusKey)
+	delete(testAnnotations, sidecarPortKey)
 	testContainers = sets.New("mockContainer", "codesealer-core")
 	testCmdAdd(t)
 
@@ -365,7 +365,7 @@ func TestCmdAddExcludePodWithIstioInitContainer(t *testing.T) {
 
 	k8Args = "K8S_POD_NAMESPACE=testNS;K8S_POD_NAME=testPodName"
 	testContainers = sets.New("mockContainer", "foo-init", "codesealer-init")
-	testAnnotations[sidecarStatusKey] = "true"
+	testAnnotations[sidecarPortKey] = "443"
 	getKubePodInfoCalled = true
 
 	testCmdAdd(t)
@@ -380,7 +380,7 @@ func TestCmdAddExcludePodWithEnvoyDisableEnv(t *testing.T) {
 
 	k8Args = "K8S_POD_NAMESPACE=testNS;K8S_POD_NAME=testPodName"
 	testContainers = sets.New("mockContainer", "codesealer-core", "foo-init")
-	testAnnotations[sidecarStatusKey] = "true"
+	testAnnotations[sidecarPortKey] = "443"
 	testProxyEnv["DISABLE_CODESEALER"] = "true"
 	getKubePodInfoCalled = true
 
