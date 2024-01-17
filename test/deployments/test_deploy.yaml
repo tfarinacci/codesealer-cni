@@ -4,7 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/name: codesealer
   annotations:
-    codesealer.com/dport: 443
+    codesealer.com/dport: "443"
     codesealer.com/injection: enabled
   name: codesealer-cni-test
   namespace: test-namespace
