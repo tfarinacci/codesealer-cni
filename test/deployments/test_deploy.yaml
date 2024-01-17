@@ -4,7 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/name: codesealer
   name: codesealer-cni-test
-  namespace: ingress-nginx
+  namespace: test-namespace
 spec:
   replicas: 1
   selector:
