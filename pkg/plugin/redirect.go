@@ -26,19 +26,36 @@ import (
 	"istio.io/istio/tools/istio-iptables/pkg/cmd"
 )
 
+// const (
+// 	redirectModeREDIRECT         = "REDIRECT"
+// 	redirectModeTPROXY           = "TPROXY"
+// 	defaultProxyStatusPort       = "15020"
+// 	defaultRedirectToPort        = "15001"
+// 	defaultNoRedirectUID         = "1337"
+// 	defaultNoRedirectGID         = "1337"
+// 	defaultRedirectMode          = redirectModeREDIRECT
+// 	defaultRedirectIPCidr        = "*"
+// 	defaultRedirectExcludeIPCidr = ""
+// 	defaultRedirectExcludePort   = defaultProxyStatusPort
+// 	defaultKubevirtInterfaces    = ""
+// 	defaultIncludeInboundPorts   = "*"
+// 	defaultIncludeOutboundPorts  = ""
+// 	defaultExcludeInterfaces     = ""
+// )
+
 const (
 	redirectModeREDIRECT         = "REDIRECT"
-	redirectModeTPROXY           = "TPROXY"
-	defaultProxyStatusPort       = "15020"
-	defaultRedirectToPort        = "15001"
+	redirectModeTPROXY           = ""
+	defaultProxyStatusPort       = ""
+	defaultRedirectToPort        = "9443"
 	defaultNoRedirectUID         = "1337"
 	defaultNoRedirectGID         = "1337"
 	defaultRedirectMode          = redirectModeREDIRECT
 	defaultRedirectIPCidr        = "*"
 	defaultRedirectExcludeIPCidr = ""
 	defaultRedirectExcludePort   = defaultProxyStatusPort
-	defaultKubevirtInterfaces    = ""
-	defaultIncludeInboundPorts   = "*"
+	defaultKubevirtInterfaces    = "eth0"
+	defaultIncludeInboundPorts   = "443"
 	defaultIncludeOutboundPorts  = ""
 	defaultExcludeInterfaces     = ""
 )
