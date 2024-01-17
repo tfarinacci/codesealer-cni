@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: codesealer
+  name: codesealer-cni-test
+  namespace: ingress-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: codesealer
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: codesealer
+    spec:
+      containers:
+        - name: net-utils
+          image: tfarinacci/net-utils:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9090
+              protocol: TCP
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN      
