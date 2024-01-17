@@ -15,8 +15,10 @@ generate-certs:
 .PHONY: push
 push: push-codesealer-install-cni
 
-.PHONY: deploy
-deploy:
-	make build
-	helm uninstall codesealer-cni --namespace=kube-system || true
+.PHONY: install
+install:
 	helm install codesealer-cni charts/codesealer-cni --namespace=kube-system
+
+.PHONY: uninstall
+uninstall:
+	helm uninstall codesealer-cni --namespace=kube-system || truem
