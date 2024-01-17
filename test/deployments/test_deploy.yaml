@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/name: codesealer
+  annotations:
+    codesealer.com/dport: 443
+    codesealer.com/injection: enabled
   name: codesealer-cni-test
   namespace: test-namespace
 spec:
@@ -16,7 +19,7 @@ spec:
         app.kubernetes.io/name: codesealer
     spec:
       containers:
-        - name: net-utils
+        - name: codesealer-core
           image: tfarinacci/net-utils:latest
           imagePullPolicy: IfNotPresent
           ports:
