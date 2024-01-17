@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: net-utils
+  labels:
+    app: net-utils
+  namespace: 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: net-utils  
+  template:
+    metadata:
+      labels:
+        app: net-utils
+    spec:
+      containers:
+      - name: net-utils
+        image: tfarinacci/net-utils:latest
+        imagePullPolicy: always
+        ports:
+        - containerPort: 9090
+          protocol: TCP
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
