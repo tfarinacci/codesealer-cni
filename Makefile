@@ -27,3 +27,7 @@ uninstall:
 test:
 	kubectl apply -f test/namespaces/test_namespace.yaml
 	kubectl apply -f test/deployments/test_deploy.yaml
+
+.PHONY: cleanup
+test-cleanup:
+	kubectl delete -f test/namespaces/test_namespace.yaml
