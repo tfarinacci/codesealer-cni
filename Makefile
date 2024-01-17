@@ -1,6 +1,6 @@
 build-codesealer-install-cni:
-	# docker build --no-cache -t tfarinacci/codesealer-install-cni:latest -f deployments/kubernetes/Dockerfile .
-	docker buildx build --push --no-cache -t tfarinacci/codesealer-install-cni:latest --platform linux/amd64,linux/arm64 -f deployments/kubernetes/Dockerfile .
+	docker build --no-cache -t tfarinacci/codesealer-install-cni:latest -f deployments/kubernetes/Dockerfile .
+	# docker buildx build --push --no-cache -t tfarinacci/codesealer-install-cni:latest --platform linux/amd64,linux/arm64 -f deployments/kubernetes/Dockerfile .
 
 push-codesealer-install-cni:
 	docker -- push tfarinacci/codesealer-install-cni:latest
@@ -14,3 +14,9 @@ generate-certs:
 
 .PHONY: push
 push: push-codesealer-install-cni
+
+.PHONY: deploy
+deploy:
+	make build
+	helm uninstall codesealer-cni --namespace=kube-system || true
+	helm install codesealer-cni charts/codesealer-cni --namespace=kube-system
