@@ -21,10 +21,10 @@ import (
 
 	"github.com/containernetworking/plugins/pkg/ns"
 
-	"istio.io/istio/pkg/log"
-	"istio.io/istio/tools/istio-iptables/pkg/cmd"
-	"istio.io/istio/tools/istio-iptables/pkg/config"
-	"istio.io/istio/tools/istio-iptables/pkg/dependencies"
+	"github.com/tfarinacci/codsealer-cni/pkg/log"
+	"github.com/tfarinacci/codsealer-cni/tools/istio-iptables/pkg/cmd"
+	"github.com/tfarinacci/codsealer-cni/tools/istio-iptables/pkg/config"
+	"github.com/tfarinacci/codsealer-cni/tools/istio-iptables/pkg/dependencies"
 )
 
 // getNs is a unit test override variable for interface create.
